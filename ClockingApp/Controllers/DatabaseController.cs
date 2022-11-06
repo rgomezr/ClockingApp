@@ -34,6 +34,14 @@ namespace ClockingApp.Controllers
             return "Success";
         }
 
+        public string ReadClockingsForUsername(string username)
+        {
+            var clockingsCollection = _client.GetDatabase("clockingsDB").GetCollection<Clocking>("clockings");
+            FilterDefinition<Clocking> filter = Builders<Clocking>.Filter.Eq("Username", username);
+            List<Clocking> clockings = clockingsCollection.Find(filter).ToList();
+            return String.Join(",", clockings.Select(clocking => clocking.WorkDay.StartDate));
+        }
+
     }
 }
 
