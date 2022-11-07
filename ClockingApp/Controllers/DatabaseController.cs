@@ -42,6 +42,29 @@ namespace ClockingApp.Controllers
             return String.Join(",", clockings.Select(clocking => clocking.WorkDay.StartDate));
         }
 
+        public string UpdateClockingForUsername(string username)
+        {
+            var clockingsCollection = _client.GetDatabase("clockingsDB").GetCollection<Clocking>("clockings");
+            FilterDefinition<Clocking> filter = Builders<Clocking>.Filter.Eq("Username", username);
+            BreakDay break_time = new BreakDay(DateTime.Now, DateTime.Now.AddMinutes(15));
+            UpdateDefinition<Clocking> updateFilter = Builders<Clocking>.Update.Set<BreakDay>("BreakDay", break_time);
+            var resultTest = clockingsCollection.UpdateOne(filter, updateFilter);
+
+            return resultTest.IsAcknowledged.ToString();
+        }
+
+        public string DeleteClockingForUsername(string username)
+        {
+            DateTime dateToDelete = new DateTime(2022, 11, 06).Date;
+            var clockingsCollection = _client.GetDatabase("clockingsDB").GetCollection<Clocking>("clockings");
+            FilterDefinition<Clocking> filter_username = Builders<Clocking>.Filter.Eq("Username", username);
+            FilterDefinition<Clocking> filter = Builders<Clocking>.Filter.Eq("ClockingDate", dateToDelete);
+            filter_username = filter_username & filter;
+            var result = clockingsCollection.DeleteOne(filter);
+
+            return result.IsAcknowledged.ToString();
+        }
+             
     }
 }
 

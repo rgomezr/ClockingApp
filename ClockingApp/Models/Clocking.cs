@@ -1,4 +1,6 @@
 ﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
 namespace ClockingApp.Models.ClockingData
 {
     public class Clocking
