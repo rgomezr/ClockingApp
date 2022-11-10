@@ -8,7 +8,6 @@ namespace ClockingApp.Models.MongoAbstraction
         [BsonId]
         [BsonRepresentation(MongoDB.Bson.BsonType.String)]
         ObjectId _id { get; set; }
-        DateTime CreatedAt { get;}
     }
 }
 

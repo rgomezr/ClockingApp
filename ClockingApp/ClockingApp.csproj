@@ -16,11 +16,15 @@
     <None Remove="Models\ClockingData\" />
     <None Remove="Models\MongoAbstraction\" />
     <None Remove="CustomAttributes\" />
+    <None Remove="CustomServices\" />
+    <None Remove="Settings\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repository\" />
     <Folder Include="Models\ClockingData\" />
     <Folder Include="Models\MongoAbstraction\" />
     <Folder Include="CustomAttributes\" />
+    <Folder Include="CustomServices\" />
+    <Folder Include="Settings\" />
   </ItemGroup>
 </Project>

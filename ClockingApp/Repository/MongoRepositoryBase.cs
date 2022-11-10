@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using ClockingApp.Models.MongoAbstraction;
 using ClockingApp.CustomAttributes;
+using ClockingApp.Settings;
 using MongoDB.Driver;
 using MongoDB.Bson;
 
@@ -8,14 +9,12 @@ namespace ClockingApp.Repository
 {
 	public class MongoRepositoryBase<TDocument> : IMongoRepositoryBase<TDocument> where TDocument : IDocument
 	{
-
-		private readonly IMongoClient _mongoClient;
 		private readonly IMongoCollection<TDocument> _collection;
 
-		public MongoRepositoryBase(IMongoClient mongoClient)
+		public MongoRepositoryBase(IMongoClient mongoClient, IMongoDBSettings mongoSettings)
 		{
-			_mongoClient = mongoClient;
-			_collection = mongoClient.GetDatabase("clockingsDB").GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
+			
+			_collection = mongoClient.GetDatabase(mongoSettings.DatabaseName).GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
 		}
 
 		private protected string GetCollectionName (Type documentType)
