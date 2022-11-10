@@ -1,4 +1,5 @@
 ﻿using ClockingApp.Models.ClockingData;
+using ClockingApp.Repository;
 using MongoDB.Driver;
 
 namespace ClockingApp.Controllers
@@ -6,13 +7,41 @@ namespace ClockingApp.Controllers
     public class DatabaseController
     {
 
-        private readonly IMongoClient _client;
-
+        //private readonly IMongoClient _client;
+        /*
         public DatabaseController(IMongoClient mongoClient)
         {
             _client = mongoClient;
         }
+        */
+        private readonly IMongoRepositoryBase<Clocking> _repository;
 
+        public DatabaseController(IMongoRepositoryBase<Clocking> repository)
+        {
+            _repository = repository;
+        }
+
+        public async Task<string> ReadClockingForUsername(string username)
+        {
+            Clocking clocking = await _repository.FindOneAsync(clocking => clocking.Username.Equals(username));
+            return String.Format("{0} : {1}",clocking._id.ToString(),clocking.CreatedAt.ToString());
+        }
+
+        public async Task<string> InsertClocking()
+        {
+            try
+            {
+                Clocking clockingTest = new Clocking("gomezr", DateTime.Now, new WorkDay(DateTime.Now, DateTime.Now.AddHours(2)), null);
+                await _repository.InsertOneAsync(clockingTest);
+            } catch (Exception ex)
+            {
+                return ex.Message;
+            }
+            return "ok";
+
+        }
+
+        /*
         public string GetDatabases()
         {
             List<string> databases = _client.ListDatabaseNames().ToList();
@@ -64,6 +93,7 @@ namespace ClockingApp.Controllers
 
             return result.IsAcknowledged.ToString();
         }
+        */
              
     }
 }

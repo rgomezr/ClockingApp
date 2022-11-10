@@ -7,6 +7,8 @@ builder.Services.AddSingleton<MongoDB.Driver.IMongoClient>(instance =>
     return new MongoDB.Driver.MongoClient(mongoDBConnection);
 });
 
+builder.Services.AddScoped(typeof(ClockingApp.Repository.IMongoRepositoryBase<>), typeof(ClockingApp.Repository.MongoRepositoryBase<>));
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 

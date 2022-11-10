@@ -11,4 +11,16 @@
     <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Repository\" />
+    <None Remove="Models\ClockingData\" />
+    <None Remove="Models\MongoAbstraction\" />
+    <None Remove="CustomAttributes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Repository\" />
+    <Folder Include="Models\ClockingData\" />
+    <Folder Include="Models\MongoAbstraction\" />
+    <Folder Include="CustomAttributes\" />
+  </ItemGroup>
 </Project>
