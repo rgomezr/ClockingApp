@@ -2,6 +2,7 @@
 using ClockingApp.Models.MongoAbstraction;
 using ClockingApp.CustomAttributes;
 using MongoDB.Driver;
+using MongoDB.Bson;
 
 namespace ClockingApp.Repository
 {
@@ -33,6 +34,29 @@ namespace ClockingApp.Repository
 		{
 			await _collection.InsertOneAsync(document);
 		}
-	}
+
+		public virtual async Task FindOneAndReplaceAsync (Expression<Func<TDocument, bool>> filter, TDocument document)
+		{
+			await _collection.FindOneAndReplaceAsync(filter, document);
+		}
+
+        public virtual async Task<IEnumerable<TDocument>> FindAllAsync(Expression<Func<TDocument, bool>> filter)
+		{
+			return (await _collection.FindAsync(filter)).ToEnumerable();
+		}
+		public virtual async Task<TDocument> FindByIdAsync(string id)
+		{
+			ObjectId objectId = new (id);
+			FilterDefinition<TDocument> filter = Builders<TDocument>.Filter.Eq(doc => doc._id, objectId);
+			return (await _collection.FindAsync(filter)).SingleOrDefault();
+		}
+		public virtual async Task DeleteByIdAsync(string id)
+		{
+            ObjectId objectId = new(id);
+            FilterDefinition<TDocument> filter = Builders<TDocument>.Filter.Eq(doc => doc._id, objectId);
+			await _collection.FindOneAndDeleteAsync(filter);
+        }
+
+    }
 }
 
