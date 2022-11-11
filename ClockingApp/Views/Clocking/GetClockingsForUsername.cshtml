@@ -1,0 +1,26 @@
+﻿@model IList<ClockingApp.Models.ClockingData.Clocking>
+@{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>username</th>
+                <th>Date</th>
+                <th>Work Times</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ClockingApp.Models.ClockingData.Clocking clocking in Model)
+            {
+                <tr>
+                    <td>@clocking._id</td>
+                    <td>@clocking.Username</td>
+                    <td>@clocking.ClockingDate.ToString()</td>
+                    <td>@String.Format("{0} -> {1}", clocking.WorkDay.StartDate, clocking.WorkDay.EndDate)</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
