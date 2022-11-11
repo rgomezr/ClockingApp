@@ -1,6 +1,6 @@
 ![.NET Build](https://github.com/rgomezr/ClockingApp/actions/workflows/dotnet.yml/badge.svg)
 
-# Concurrency_deadlock
+# ClockingApp
 
 Built to ease the clocking experience when WFH
 
