@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IList<ClockingApp.Models.ClockingData.Clocking>
+@{
     ViewData["Title"] = "Home Page";
 }
 <section id="welcomeSection">
@@ -19,7 +20,51 @@
         </div>
     </div>
     <div class="text-center">
-        <!-- Load partial view to show  -->
+        @{
+            ClockingApp.Models.ClockingData.Clocking? clocking = ViewData["todaysClocking"] as ClockingApp.Models.ClockingData.Clocking;
+            if (clocking != null)
+            {
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex flex-row">
+                            <div>
+                                <b>Work Day: </b>@clocking.WorkDay.StartDate -> @clocking.WorkDay.EndDate
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+</section>
+<section id="weeksClocking">
+    <div class="text-left">
+        <h5>For this week</h5>
+    </div>
+    <div class="center">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>username</th>
+                    <th>Date</th>
+                    <th>Work Times</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ClockingApp.Models.ClockingData.Clocking clockingItem in Model)
+                {
+                    <tr>
+                        <td>@clockingItem._id</td>
+                        <td>@clockingItem.Username</td>
+                        <td>@clockingItem.ClockingDate.ToString()</td>
+                        <td>@String.Format("{0} -> {1}", clockingItem.WorkDay.StartDate, clockingItem.WorkDay.EndDate)</td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
     </div>
 </section>
 
