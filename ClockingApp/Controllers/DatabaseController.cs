@@ -15,7 +15,7 @@ namespace ClockingApp.Controllers
         public async Task<string> ReadClockingForUsername(string username)
         {
             Clocking clocking = await _clockingService._clockingRepo.FindOneAsync(clocking => clocking.Username.Equals(username));
-            return String.Format("{0} : {1}",clocking._id.ToString());
+            return clocking._id.ToString();
         }
     }
 }

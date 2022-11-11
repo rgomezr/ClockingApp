@@ -2,7 +2,7 @@
 
 var mongoDBConnection = builder.Configuration["mongoDBConnection"];
 
-builder.Services.Configure<ClockingApp.Settings.IMongoDBSettings>(builder.Configuration.GetSection("MongoDBSettings"));
+builder.Services.Configure<ClockingApp.Settings.MongoDBSettings>(builder.Configuration.GetSection("MongoDBSettings"));
 
 builder.Services.AddSingleton<ClockingApp.Settings.IMongoDBSettings>(service =>
         service.GetRequiredService<Microsoft.Extensions.Options.IOptions<ClockingApp.Settings.MongoDBSettings>>().Value);
