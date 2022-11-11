@@ -1,5 +1,19 @@
 ﻿var builder = WebApplication.CreateBuilder(args);
 
+var mongoDBConnection = builder.Configuration["mongoDBConnection"];
+
+builder.Services.Configure<ClockingApp.Settings.MongoDBSettings>(builder.Configuration.GetSection("MongoDBSettings"));
+
+builder.Services.AddSingleton<ClockingApp.Settings.IMongoDBSettings>(service =>
+        service.GetRequiredService<Microsoft.Extensions.Options.IOptions<ClockingApp.Settings.MongoDBSettings>>().Value);
+
+builder.Services.AddSingleton<MongoDB.Driver.IMongoClient>(instance =>
+{
+    return new MongoDB.Driver.MongoClient(mongoDBConnection);
+});
+
+builder.Services.AddSingleton<ClockingApp.CustomServices.ClockingService>();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
