@@ -7,6 +7,11 @@ builder.Services.Configure<ClockingApp.Settings.MongoDBSettings>(builder.Configu
 builder.Services.AddSingleton<ClockingApp.Settings.IMongoDBSettings>(service =>
         service.GetRequiredService<Microsoft.Extensions.Options.IOptions<ClockingApp.Settings.MongoDBSettings>>().Value);
 
+builder.Services.Configure<ClockingApp.Settings.UserSettings>(builder.Configuration.GetSection("UserSettings"));
+
+builder.Services.AddSingleton<ClockingApp.Settings.IUserSettings>(service =>
+        service.GetRequiredService<Microsoft.Extensions.Options.IOptions<ClockingApp.Settings.UserSettings>>().Value);
+
 builder.Services.AddSingleton<MongoDB.Driver.IMongoClient>(instance =>
 {
     return new MongoDB.Driver.MongoClient(mongoDBConnection);

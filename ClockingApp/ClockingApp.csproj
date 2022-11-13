@@ -19,6 +19,7 @@
     <None Remove="CustomServices\" />
     <None Remove="Settings\" />
     <None Remove="Views\Clocking\" />
+    <None Remove="Models\CustomViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repository\" />
@@ -28,5 +29,6 @@
     <Folder Include="CustomServices\" />
     <Folder Include="Settings\" />
     <Folder Include="Views\Clocking\" />
+    <Folder Include="Models\CustomViewModels\" />
   </ItemGroup>
 </Project>

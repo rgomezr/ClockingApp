@@ -19,6 +19,8 @@ namespace ClockingApp.Controllers
             IList<Clocking> clockings = (await _clockingService._clockingRepo.FindAllAsync(clocking => clocking.Username.Equals(username))).ToList();
             return View(clockings);
         }
+
+
     }
 }
 

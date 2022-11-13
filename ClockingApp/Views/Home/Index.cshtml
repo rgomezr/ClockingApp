@@ -1,4 +1,4 @@
-﻿@model IList<ClockingApp.Models.ClockingData.Clocking>
+﻿@model ClockingApp.Models.CustomViewModels.WeeksDailyClocking
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -21,7 +21,7 @@
     </div>
     <div class="text-center">
         @{
-            ClockingApp.Models.ClockingData.Clocking? clocking = ViewData["todaysClocking"] as ClockingApp.Models.ClockingData.Clocking;
+            ClockingApp.Models.ClockingData.Clocking? clocking = Model.DayClocking;
             if (clocking != null)
             {
                 <div class="card">
@@ -53,7 +53,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (ClockingApp.Models.ClockingData.Clocking clockingItem in Model)
+                @foreach (ClockingApp.Models.ClockingData.Clocking clockingItem in Model.WeeksClocking)
                 {
                     <tr>
                         <td>@clockingItem._id</td>
