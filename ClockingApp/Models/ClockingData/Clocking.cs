@@ -10,9 +10,9 @@ namespace ClockingApp.Models.ClockingData
         public int ClockingWeek { get; set; }
         public DateTime ClockingDate { get; set; }
         public WorkDay WorkDay { get; set; } = null!;
-        public BreakDay? BreakDay { get; set; } = null!;
+        public List<BreakDay> BreakDay { get; set; } = null!;
 
-        public Clocking(string username, int clockingWeek, DateTime clockingDate, WorkDay workDay, BreakDay? breakDay)
+        public Clocking(string username, int clockingWeek, DateTime clockingDate, WorkDay workDay, List<BreakDay> breakDay)
         {
             Username = username;
             ClockingWeek = clockingWeek;
