@@ -1,10 +1,12 @@
 ﻿@model ClockingApp.Models.CustomViewModels.WeeksDailyClocking
 @{
     ViewData["Title"] = "Home Page";
+    ClockingApp.Models.ClockingData.Clocking? clocking = Model.DayClocking;
+    string username = clocking != null ? clocking.Username : "Unknown";
 }
 <section id="welcomeSection">
     <div class="text-center">
-        <h4>Welcome again, <small class="text-muted">Ramón</small></h4>
+        <h4>Welcome again, <small class="text-muted">@username</small></h4>
     </div>
 </section>
 <section id="todaysClocking">
@@ -12,16 +14,29 @@
         <h5>For Today</h5>
         <div class="d-flex flex-row">
             <div class="p-2">
-                <button class="btn btn-sm btn-primary">Start Log</button>
+                @if (clocking == null)
+                {
+                    <button class="btn btn-sm btn-outline-primary">Start Work</button>
+                }
+                else if (clocking.WorkDay != null && clocking.WorkDay.IsWorkActive)
+                {
+                    <button class="btn btn-sm btn-primary">Finish Work</button>
+                }
             </div>
             <div class="p-2">
-                <button class="btn btn-sm btn-warning">Add break</button>
+                @if (clocking != null && clocking.WorkDay != null && clocking.WorkDay.IsWorkActive)
+                {
+                    <button class="btn btn-sm btn-outline-warning">Start Break</button>
+                }
+                else if (clocking != null && clocking.IsCurrentBreakActive())
+                {
+                    <button class="btn btn-sm btn-warning">Finish Break</button>
+                }
             </div>
         </div>
     </div>
     <div class="text-center">
         @{
-            ClockingApp.Models.ClockingData.Clocking? clocking = Model.DayClocking;
             if (clocking != null)
             {
                 <div class="card">
