@@ -6,7 +6,7 @@ namespace ClockingApp.Models.ClockingData
     [BsonCollection("clockings")]
     public class Clocking : Document
     {
-        public string Username { get; set; } = null!;
+        public string Username { get; set; }
         public int ClockingWeek { get; set; }
         public DateTime ClockingDate { get; set; }
         public WorkDay WorkDay { get; set; } = null!;

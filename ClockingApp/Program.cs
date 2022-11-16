@@ -20,7 +20,7 @@ builder.Services.AddSingleton<MongoDB.Driver.IMongoClient>(instance =>
 builder.Services.AddSingleton<ClockingApp.CustomServices.ClockingService>();
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 var app = builder.Build();
 
