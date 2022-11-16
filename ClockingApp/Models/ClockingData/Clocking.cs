@@ -1,5 +1,6 @@
 ﻿using ClockingApp.CustomAttributes;
 using ClockingApp.Models.MongoAbstraction;
+using MongoDB.Bson.Serialization.Attributes;
 
 namespace ClockingApp.Models.ClockingData
 {
@@ -8,6 +9,7 @@ namespace ClockingApp.Models.ClockingData
     {
         public string Username { get; set; }
         public int ClockingWeek { get; set; }
+        [BsonDateTimeOptions(DateOnly = true)]
         public DateTime ClockingDate { get; set; }
         public WorkDay WorkDay { get; set; } = null!;
         public List<BreakDay> Breaks { get; set; } = null!;

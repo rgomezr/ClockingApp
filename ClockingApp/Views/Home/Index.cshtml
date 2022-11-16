@@ -1,7 +1,7 @@
-﻿@model ClockingApp.Models.CustomViewModels.WeeksDailyClocking
+﻿@model ClockingApp.Models.ClockingData.Clocking
 @{
     ViewData["Title"] = "Home Page";
-    ClockingApp.Models.ClockingData.Clocking? clocking = Model.DayClocking;
+    ClockingApp.Models.ClockingData.Clocking clocking = Model;
     string username = clocking != null ? clocking.Username : "Unknown";
     DateTime currentDate = DateTime.Now.Date;
 }
@@ -99,6 +99,7 @@
 
     </div>
 </section>
+<!--
 <section id="weeksClocking">
     <div class="text-left">
         <h5>For this week</h5>
@@ -114,7 +115,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (ClockingApp.Models.ClockingData.Clocking clockingItem in Model.WeeksClocking)
+                @*foreach (ClockingApp.Models.ClockingData.Clocking clockingItem in Model.WeeksClocking)
                 {
                     <tr>
                         <td>@clockingItem._id</td>
@@ -124,9 +125,9 @@
 
                     </tr>
                 }
+                *@
             </tbody>
         </table>
     </div>
 </section>
-
-
+-->

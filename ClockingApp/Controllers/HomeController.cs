@@ -23,10 +23,11 @@ public class HomeController : Controller
     
     public async Task<IActionResult> Index()
     {
+        DateTime today = DateTime.Now.Date;
         string username = _userSettings.Username;
-        List<Clocking> weekClockingsList = (await _clockingService._clockingRepo.FindAllAsync(clocking => clocking.Username.Equals(username) && clocking.ClockingWeek.Equals(WeeksDailyClocking.CurrentWeek))).ToList();
-        WeeksDailyClocking weeksClockings = new(weekClockingsList);
-        return View(weeksClockings);
+        Clocking todaysClocking = await _clockingService._clockingRepo.FindOneAsync(clocking => clocking.Username.Equals(username) && clocking.ClockingDate == today);
+  
+        return View(todaysClocking);
     }
 
     public IActionResult Privacy()
