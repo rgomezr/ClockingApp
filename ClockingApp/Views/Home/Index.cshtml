@@ -21,7 +21,7 @@
                     <div class="m-2">
                         @if (clocking == null)
                         {
-                            <button class="btn btn-sm btn-outline-primary">Start Work</button>
+                            <button class="btn btn-sm btn-outline-primary" onclick="StartWork()">Start Work</button>
                         }
                         else if (clocking.WorkDay != null && clocking.WorkDay.IsWorkActive)
                         {

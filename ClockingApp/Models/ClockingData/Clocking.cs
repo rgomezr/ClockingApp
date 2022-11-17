@@ -14,7 +14,7 @@ namespace ClockingApp.Models.ClockingData
         public WorkDay WorkDay { get; set; } = null!;
         public List<BreakDay> Breaks { get; set; } = null!;
 
-        public Clocking(string username, int clockingWeek, DateTime clockingDate, WorkDay workDay, List<BreakDay> breaks)
+        public Clocking(string username, int clockingWeek, DateTime clockingDate, WorkDay workDay, List<BreakDay>? breaks)
         {
             Username = username;
             ClockingWeek = clockingWeek;
