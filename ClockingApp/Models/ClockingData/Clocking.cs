@@ -9,10 +9,10 @@ namespace ClockingApp.Models.ClockingData
     {
         public string Username { get; set; }
         public int ClockingWeek { get; set; }
-        [BsonDateTimeOptions(DateOnly = true)]
+        [BsonDateTimeOptions(DateOnly = true, Kind = DateTimeKind.Local)]
         public DateTime ClockingDate { get; set; }
         public WorkDay WorkDay { get; set; } = null!;
-        public List<BreakDay> Breaks { get; set; } = null!;
+        public List<BreakDay>? Breaks { get; set; } = null!;
 
         public Clocking(string username, int clockingWeek, DateTime clockingDate, WorkDay workDay, List<BreakDay>? breaks)
         {
@@ -28,7 +28,7 @@ namespace ClockingApp.Models.ClockingData
         /// <returns>true if there is any break active; Otherwise false</returns>
         public bool IsCurrentBreakActive()
         {
-            return this.Breaks.Any(_break => _break.IsBreakActive);
+            return this.Breaks != null ? this.Breaks.Any(_break => _break.IsBreakActive) : false;
         }
     }
 }

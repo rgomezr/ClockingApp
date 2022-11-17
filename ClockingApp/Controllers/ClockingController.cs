@@ -21,14 +21,13 @@ namespace ClockingApp.Controllers
             return View(clockings);
         }
 
-		public async Task<JsonResult> StartWork (string username)
+		public async Task<ActionResult> StartWork (string username)
 		{
-			DateTime currentDate = DateTime.Now.Date;
+			DateTime currentDate = DateTime.Now;
 			WorkDay workDay = new WorkDay(currentDate, null);
-			Clocking clocking = new Clocking(username, ISOWeek.GetWeekOfYear(currentDate), currentDate, workDay, null);
+			Clocking clocking = new Clocking(username, ISOWeek.GetWeekOfYear(currentDate), currentDate.Date, workDay, null);
 			await _clockingService._clockingRepo.InsertOneAsync(clocking);
-			//return JsonResult(Url.Action("Index", "Home"));
-			return null;
+			return Json(Url.Action("Index", "Home"));
 
 
         }

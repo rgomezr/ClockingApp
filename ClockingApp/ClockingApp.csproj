@@ -22,7 +22,6 @@
     <None Remove="Views\Clocking\" />
     <None Remove="Models\CustomViewModels\" />
     <None Remove="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" />
-    <None Remove="Scripts\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repository\" />
@@ -33,6 +32,5 @@
     <Folder Include="Settings\" />
     <Folder Include="Views\Clocking\" />
     <Folder Include="Models\CustomViewModels\" />
-    <Folder Include="Scripts\" />
   </ItemGroup>
 </Project>

@@ -1,10 +1,30 @@
 ﻿@model ClockingApp.Models.ClockingData.Clocking
 @{
-    ViewData["Title"] = "Home Page";
     ClockingApp.Models.ClockingData.Clocking clocking = Model;
     string username = clocking != null ? clocking.Username : "Unknown";
     DateTime currentDate = DateTime.Now.Date;
 }
+
+<script src="~/Clocking.js"></script>
+<script>
+    function StartWork(user) {
+    console.log(user)
+    
+    $.ajax({
+        type: "POST",
+        url: "@Url.Action("StartWork", "Clocking")",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify({ username: user }),
+        success: function (_dataBack) {
+            console.log(_dataBack);
+            window.location.href = _dataBack;
+        }
+    });
+    
+}
+</script>
+
 <section id="welcomeSection">
     <div class="text-center">
         <h4>Welcome again, <small class="text-muted">@username</small></h4>
@@ -21,7 +41,7 @@
                     <div class="m-2">
                         @if (clocking == null)
                         {
-                            <button class="btn btn-sm btn-outline-primary" onclick="StartWork()">Start Work</button>
+                            <button class="btn btn-sm btn-outline-primary" onclick="StartWork('gomezr')">Start Work</button>
                         }
                         else if (clocking.WorkDay != null && clocking.WorkDay.IsWorkActive)
                         {

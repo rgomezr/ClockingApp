@@ -26,7 +26,7 @@ public class HomeController : Controller
         DateTime today = DateTime.Now.Date;
         string username = _userSettings.Username;
         Clocking todaysClocking = await _clockingService._clockingRepo.FindOneAsync(clocking => clocking.Username.Equals(username) && clocking.ClockingDate == today);
-  
+
         return View(todaysClocking);
     }
 
