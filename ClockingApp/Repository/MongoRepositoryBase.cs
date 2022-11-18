@@ -12,7 +12,7 @@ namespace ClockingApp.Repository
 		private readonly IMongoCollection<TDocument> _collection;
 
 		public MongoRepositoryBase(IMongoClient mongoClient, IMongoDBSettings mongoSettings)
-		{	
+		{
 			_collection = mongoClient.GetDatabase(mongoSettings.DatabaseName).GetCollection<TDocument>(GetCollectionName(typeof(TDocument)));
 		}
 

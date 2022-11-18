@@ -30,6 +30,16 @@ namespace ClockingApp.Models.ClockingData
         {
             return this.Breaks != null ? this.Breaks.Any(_break => _break.IsBreakActive) : false;
         }
+        public void AddToBreakList(BreakDay breakDay)
+        {
+            if (this.Breaks != null)
+            {
+                this.Breaks.Add(breakDay);
+            } else
+            {
+                this.Breaks = new List<BreakDay> { breakDay };
+            }
+        }
     }
 }
 

@@ -32,6 +32,15 @@ namespace ClockingApp.Controllers
 
         }
 
+		public async Task<ActionResult> StartBreak (Clocking clocking)
+		{
+			DateTime currentDate = DateTime.Now;
+			BreakDay breakDay = new BreakDay(currentDate, null);
+			clocking.AddToBreakList(breakDay);
+			await _clockingService._clockingRepo.FindOneAndReplaceAsync(clocking => clocking._id.Equals(clocking._id), clocking);
+            return Json(Url.Action("Index", "Home"));
+        }
+
 
     }
 }
