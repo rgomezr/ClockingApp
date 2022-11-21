@@ -3,6 +3,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using ClockingApp.CustomServices;
 using ClockingApp.Models.ClockingData;
+using MongoDB.Bson;
 
 namespace ClockingApp.Controllers
 {
@@ -32,14 +33,28 @@ namespace ClockingApp.Controllers
 
         }
 
-		public async Task<ActionResult> StartBreak (Clocking clocking)
+		public async Task<ActionResult> StartBreak (string clockingId)
 		{
-			DateTime currentDate = DateTime.Now;
-			BreakDay breakDay = new BreakDay(currentDate, null);
-			clocking.AddToBreakList(breakDay);
-			await _clockingService._clockingRepo.FindOneAndReplaceAsync(clocking => clocking._id.Equals(clocking._id), clocking);
-            return Json(Url.Action("Index", "Home"));
-        }
+			string id = "";
+
+            Clocking clocking = await _clockingService._clockingRepo.FindByIdAsync(id);
+			if (clocking != null)
+			{
+                DateTime currentDate = DateTime.Now;
+                BreakDay breakDay = new BreakDay(currentDate, null);
+                clocking.AddToBreakList(breakDay);
+                await _clockingService._clockingRepo.FindOneAndReplaceAsync(clocking => clocking.ClockingDate == currentDate.Date, clocking);
+                return Json(Url.Action("Index", "Home"));
+
+            } else
+			{
+				return Json(String.Format("Clocking with id {0} could not be found in db", clockingId));
+			}
+
+
+			
+
+	        }
 
 
     }
