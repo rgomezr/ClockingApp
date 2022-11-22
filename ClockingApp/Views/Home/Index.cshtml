@@ -5,15 +5,14 @@
     DateTime currentDate = DateTime.Now.Date;
 }
 
-<script src="~/Clocking.js"></script>
-<script>
-    function StartWork(user) {
-        $.ajax({
-            type: "POST",
-            url: "@Url.Action("StartWork", "Clocking")",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ username: user }),
+<!--script src="~/Clocking.js"></!--script>-->
+<script>function StartWork(user) {
+    $.ajax({
+        type: "POST",
+        url: "/Clocking/StartWork",
+        dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(user),
             success: function (_dataBack) {
                 console.log(_dataBack);
                 window.location.href = _dataBack;
@@ -24,17 +23,17 @@
     function StartBreak(clockingId) {
         $.ajax({
             type: "POST",
-            url: "@Url.Action("StartBreak", "Clocking")",
+            url: "/Clocking/StartBreak",
             dataType: "json",
             contentType: "application/json; charset=utf-8",
-            data: JSON.stringify({ clockingId: clockingId }),
+            data: JSON.stringify(clockingId),
             success: function (_dataBack) {
                 console.log(_dataBack);
                 window.location.href = _dataBack;
             }
         });
     }
-</script>
+    </script>
 
 <section id="welcomeSection">
     <div class="text-center">
@@ -73,7 +72,7 @@
             </div>
             <div class="card-body">
                 @if (clocking != null)
-                {   
+                {
                     <ul>
                         <li>
                             <b>Work Day</b>

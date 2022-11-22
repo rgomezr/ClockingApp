@@ -7,14 +7,14 @@ using MongoDB.Bson;
 
 namespace ClockingApp.Controllers
 {
-	public class ClockingController : Controller
-	{
-		private readonly ClockingService _clockingService;
+    public class ClockingController : Controller
+    {
+        private readonly ClockingService _clockingService;
 
-		public ClockingController(ClockingService clockingService)
-		{
-			_clockingService = clockingService;
-		}
+        public ClockingController(ClockingService clockingService)
+        {
+            _clockingService = clockingService;
+        }
 
         public async Task<IActionResult> GetClockingsForUsername(string username)
         {
@@ -22,39 +22,41 @@ namespace ClockingApp.Controllers
             return View(clockings);
         }
 
-		public async Task<ActionResult> StartWork (string username)
-		{
-			DateTime currentDate = DateTime.Now;
-			WorkDay workDay = new WorkDay(currentDate, null);
-			Clocking clocking = new Clocking(username, ISOWeek.GetWeekOfYear(currentDate), currentDate.Date, workDay, null);
-			await _clockingService._clockingRepo.InsertOneAsync(clocking);
-			return Json(Url.Action("Index", "Home"));
+        [HttpPost]
+        public async Task<ActionResult> StartWork([FromBody] string username)
+        {
+            DateTime currentDate = DateTime.Now;
+            WorkDay workDay = new WorkDay(currentDate, null);
+            Clocking clocking = new Clocking(username, ISOWeek.GetWeekOfYear(currentDate), currentDate.Date, workDay, null);
+            await _clockingService._clockingRepo.InsertOneAsync(clocking);
+            return Json(Url.Action("Index", "Home"));
 
 
         }
 
-		public async Task<ActionResult> StartBreak (string clockingId)
-		{
-			string id = "";
+        [HttpPost]
+        public async Task<ActionResult> StartBreak([FromBody] string clockingId)
+        {
 
-            Clocking clocking = await _clockingService._clockingRepo.FindByIdAsync(id);
-			if (clocking != null)
-			{
+            Clocking clocking = await _clockingService._clockingRepo.FindByIdAsync(clockingId);
+            if (clocking != null)
+            {
                 DateTime currentDate = DateTime.Now;
                 BreakDay breakDay = new BreakDay(currentDate, null);
                 clocking.AddToBreakList(breakDay);
                 await _clockingService._clockingRepo.FindOneAndReplaceAsync(clocking => clocking.ClockingDate == currentDate.Date, clocking);
                 return Json(Url.Action("Index", "Home"));
 
-            } else
-			{
-				return Json(String.Format("Clocking with id {0} could not be found in db", clockingId));
-			}
+            }
+            else
+            {
+                return Json(String.Format("Clocking with id {0} could not be found in db", clockingId));
+            }
 
 
-			
 
-	        }
+
+        }
 
 
     }
