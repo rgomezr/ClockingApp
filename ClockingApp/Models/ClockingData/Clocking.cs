@@ -28,16 +28,30 @@ namespace ClockingApp.Models.ClockingData
         /// <returns>true if there is any break active; Otherwise false</returns>
         public bool IsCurrentBreakActive()
         {
-            return this.Breaks != null ? this.Breaks.Any(_break => _break.IsBreakActive) : false;
+            return Breaks != null ? Breaks.Any(_break => _break.IsBreakActive) : false;
         }
+        /// <summary>
+        /// Adds parametrised BreakDay to this.Breaks.
+        /// If empty, list will be initialised with parameter on it
+        /// </summary>
+        /// <param name="breakDay"></param>
         public void AddToBreakList(BreakDay breakDay)
         {
-            if (this.Breaks != null)
+            if (Breaks != null)
             {
-                this.Breaks.Add(breakDay);
-            } else
+                Breaks.Add(breakDay);
+            }
+            else
             {
-                this.Breaks = new List<BreakDay> { breakDay };
+                Breaks = new List<BreakDay> { breakDay };
+            }
+        }
+        public void FinishActiveBreak()
+        {
+            if (Breaks != null)
+            {
+                DateTime currentDate = DateTime.Now;
+                Breaks.Find(_break => _break.IsBreakActive).EndDate = currentDate;
             }
         }
     }

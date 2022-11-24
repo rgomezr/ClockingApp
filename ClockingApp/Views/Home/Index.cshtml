@@ -14,7 +14,6 @@
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(user),
             success: function (_dataBack) {
-                console.log(_dataBack);
                 window.location.href = _dataBack;
             }
         });
@@ -28,7 +27,18 @@
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify(clockingId),
             success: function (_dataBack) {
-                console.log(_dataBack);
+                window.location.href = _dataBack;
+            }
+        });
+    }
+    function FinishBreak(clockingId) {
+        $.ajax({
+            type: "POST",
+            url: "/Clocking/FinishBreak",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(clockingId),
+            success: function (_dataBack) {
                 window.location.href = _dataBack;
             }
         });
@@ -65,7 +75,7 @@
                         }
                         else if (clocking != null && clocking.IsCurrentBreakActive())
                         {
-                            <button class="btn btn-sm btn-warning">Finish Break</button>
+                            <button class="btn btn-sm btn-warning" onclick="FinishBreak('@clocking._id')">Finish Break</button>
                         }
                     </div>
                 </div>
