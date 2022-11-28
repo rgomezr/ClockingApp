@@ -34,11 +34,32 @@ namespace ClockingApp.Controllers
 
         }
 
-        //[HttpPost]
-        //public async Task<ActionResult> FinishWork([FromBody] string clockingId)
-        //{
+        [HttpPost]
+        public async Task<ActionResult> FinishWork([FromBody] string clockingId)
+        {
+            Clocking clocking = await RetrieveClockingById(clockingId);
+            if (clocking != null)
+            {
+                try
+                {
+                    DateTime currentDate = DateTime.Now;
+                    clocking.WorkDay.EndDate = currentDate;
+                    await _clockingService._clockingRepo.FindOneAndReplaceAsync(clocking => clocking.ClockingDate == currentDate.Date, clocking);
+                    return Json(Url.Action("Index", "Home"));
+                }
+                catch (Exception ex)
+                {
+                    //TODO: Return appropiate Bad Request with exception message back
+                    return Json(String.Format("An error occurred while updating clocking: {0}", ex.Message));
+                }
 
-        //}
+            }
+            else
+            {
+                // TODO: Return appropiate Bad Request with message back
+                return Json(String.Format("Clocking with id {0} could not be found in db", clockingId));
+            }
+        }
 
         [HttpPost]
         public async Task<ActionResult> StartBreak([FromBody] string clockingId)

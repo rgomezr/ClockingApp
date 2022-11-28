@@ -7,12 +7,25 @@
 
 <!--script src="~/Clocking.js"></!--script>-->
 <script>function StartWork(user) {
-    $.ajax({
-        type: "POST",
-        url: "/Clocking/StartWork",
-        dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(user),
+        $.ajax({
+            type: "POST",
+            url: "/Clocking/StartWork",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(user),
+            success: function (_dataBack) {
+                window.location.href = _dataBack;
+            }
+        });
+}
+
+    function FinishWork(clockingId) {
+        $.ajax({
+            type: "POST",
+            url: "/Clocking/FinishWork",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(clockingId),
             success: function (_dataBack) {
                 window.location.href = _dataBack;
             }
@@ -42,8 +55,7 @@
                 window.location.href = _dataBack;
             }
         });
-    }
-    </script>
+    }</script>
 
 <section id="welcomeSection">
     <div class="text-center">
@@ -65,7 +77,7 @@
                         }
                         else if (clocking.WorkDay != null && clocking.WorkDay.IsWorkActive)
                         {
-                            <button class="btn btn-sm btn-primary">Finish Work</button>
+                            <button class="btn btn-sm btn-primary" onclick="FinishWork('@clocking._id')">Finish Work</button>
                         }
                     </div>
                     <div class="m-2">
