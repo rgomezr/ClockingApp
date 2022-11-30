@@ -6,16 +6,16 @@ namespace ClockingApp.Models.ClockingData
     public class WorkDay
     {
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
-        public DateTime? StartDate { get; set; } = null!;
+        public DateTime StartDate { get; set; }
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? EndDate { get; set; } = null!;
-        public bool IsWorkActive => StartDate != null && EndDate == null;
-        public bool IsWorkFinished => StartDate != null && EndDate != null;
+        public bool IsWorkActive => (EndDate == null);
+        public bool IsWorkFinished => (EndDate != null);
         [DoublePrecision(2)]
         public double Duration => IsWorkActive ? (DateTime.Now - ((DateTime)StartDate)).TotalHours : IsWorkFinished
             ? (((DateTime)EndDate) - ((DateTime)StartDate)).TotalHours : 0;
 
-        public WorkDay(DateTime? startDate, DateTime? endDate)
+        public WorkDay(DateTime startDate, DateTime? endDate)
         {
             StartDate = startDate;
             EndDate = endDate;

@@ -107,11 +107,18 @@ namespace ClockingApp.Controllers
             }
         }
 
+        public async Task<ActionResult> GetAllClockingsForUserAndWeek([FromQuery] string username, int weekNumber)
+        {
+            IList<Clocking> weekClockings = (await _clockingService._clockingRepo.FindAllAsync(clocking => clocking.Username.Equals(username) &&
+                                            clocking.ClockingWeek.Equals(weekNumber))).ToList();
+            return View("ClockingsForUserAndWeek", weekClockings);
+        }
+
         private async Task<Clocking> RetrieveClockingById (string clockingId)
         {
             return await _clockingService._clockingRepo.FindByIdAsync(clockingId);
         }
-
+        
 
     }
 }
