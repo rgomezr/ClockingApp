@@ -1,26 +1,185 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model ClockingApp.Models.ClockingData.Clocking
+@{
+    ClockingApp.Models.ClockingData.Clocking clocking = Model;
+    string username = clocking != null ? clocking.Username : "Unknown"; // change this to appsettings.json username
+    DateTime currentDate = DateTime.Now.Date;
 }
+
+<!--script src="~/Clocking.js"></!--script>-->
+<script>function StartWork(user) {
+        $.ajax({
+            type: "POST",
+            url: "/Clocking/StartWork",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(user),
+            success: function (_dataBack) {
+                window.location.href = _dataBack;
+            }
+        });
+}
+
+    function FinishWork(clockingId) {
+        $.ajax({
+            type: "POST",
+            url: "/Clocking/FinishWork",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(clockingId),
+            success: function (_dataBack) {
+                window.location.href = _dataBack;
+            }
+        });
+    }
+
+    function StartBreak(clockingId) {
+        $.ajax({
+            type: "POST",
+            url: "/Clocking/StartBreak",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(clockingId),
+            success: function (_dataBack) {
+                window.location.href = _dataBack;
+            }
+        });
+    }
+    function FinishBreak(clockingId) {
+        $.ajax({
+            type: "POST",
+            url: "/Clocking/FinishBreak",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify(clockingId),
+            success: function (_dataBack) {
+                window.location.href = _dataBack;
+            }
+        });
+    }</script>
+
 <section id="welcomeSection">
     <div class="text-center">
-        <h4>Welcome again, <small class="text-muted">Ramón</small></h4>
+        <h4>Welcome again, <small class="text-muted">@username</small></h4>
     </div>
 </section>
 <section id="todaysClocking">
     <div class="text-left">
-        <h5>For Today</h5>
-        <div class="d-flex flex-row">
-            <div class="p-2">
-                <button class="btn btn-sm btn-primary">Start Log</button>
-            </div>
-            <div class="p-2">
-                <button class="btn btn-sm btn-warning">Add break</button>
-            </div>
-        </div>
+        <h5>For Today, <small class="text-muted">@currentDate.ToShortDateString()</small></h5>
     </div>
     <div class="text-center">
-        <!-- Load partial view to show  -->
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex flex-row">
+                    <div class="m-2">
+                        @if (clocking == null)
+                        {
+                            <button class="btn btn-sm btn-outline-primary" onclick="StartWork('gomezr')">Start Work</button>
+                        }
+                        else if (clocking.WorkDay != null && clocking.WorkDay.IsWorkActive)
+                        {
+                            <button class="btn btn-sm btn-primary" onclick="FinishWork('@clocking._id')">Finish Work</button>
+                        }
+                    </div>
+                    <div class="m-2">
+                        @if (clocking != null && clocking.WorkDay != null && clocking.WorkDay.IsWorkActive && !clocking.IsCurrentBreakActive())
+                        {
+                            <button class="btn btn-sm btn-outline-warning" onclick="StartBreak('@clocking._id')">Start Break</button>
+                        }
+                        else if (clocking != null && clocking.IsCurrentBreakActive())
+                        {
+                            <button class="btn btn-sm btn-warning" onclick="FinishBreak('@clocking._id')">Finish Break</button>
+                        }
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                @if (clocking != null)
+                {
+                    <ul>
+                        <li>
+                            <b>Work Day</b>
+                            <ul>
+                                <li>
+                                    Start: @(clocking.WorkDay != null ? clocking.WorkDay.StartDate : null)
+                                </li>
+                                <li>
+                                    End: @(clocking.WorkDay != null && clocking.WorkDay.IsWorkFinished ? clocking.WorkDay.EndDate: null)
+                                </li>
+                                <li>
+                                    Duration (h): @(clocking.WorkDay != null ? clocking.WorkDay.Duration.ToString("#.##") : null)
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <b>Breaks</b>
+                            @if (clocking.Breaks != null && clocking.Breaks.Any())
+                            {
+                                <table class="table table-sm table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Start</th>
+                                            <th>End</th>
+                                            <th>Duration (h)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (ClockingApp.Models.ClockingData.BreakDay _break in clocking.Breaks)
+                                        {
+                                            <tr>
+                                                <td>@_break.StartDate</td>
+                                                <td>@_break.EndDate</td>
+                                                <td>@_break.Duration</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            }
+                            else
+                            {
+                                <small class="muted">No breaks entered yet...</small>
+                            }
+                        </li>
+                    </ul>
+
+                }
+                else
+                {
+                    <small class="muted">No clocking for today yet...</small>
+                }
+            </div>
+        </div>
+
     </div>
 </section>
+<!--
+<section id="weeksClocking">
+    <div class="text-left">
+        <h5>For this week</h5>
+    </div>
+    <div class="center">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>id</th>
+                    <th>username</th>
+                    <th>Date</th>
+                    <th>Work Times</th>
+                </tr>
+            </thead>
+            <tbody>
+                @*foreach (ClockingApp.Models.ClockingData.Clocking clockingItem in Model.WeeksClocking)
+                {
+                    <tr>
+                        <td>@clockingItem._id</td>
+                        <td>@clockingItem.Username</td>
+                        <td>@clockingItem.ClockingDate.ToString()</td>
+                        <td>@String.Format("{0} -> {1}", clockingItem.WorkDay.StartDate, clockingItem.WorkDay.EndDate)</td>
 
-
+                    </tr>
+                }
+                *@
+            </tbody>
+        </table>
+    </div>
+</section>
+-->

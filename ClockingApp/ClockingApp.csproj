@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Driver" Version="2.18.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.11" />
   </ItemGroup>
 
   <ItemGroup>
@@ -18,6 +19,9 @@
     <None Remove="CustomAttributes\" />
     <None Remove="CustomServices\" />
     <None Remove="Settings\" />
+    <None Remove="Views\Clocking\" />
+    <None Remove="Models\CustomViewModels\" />
+    <None Remove="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repository\" />
@@ -26,5 +30,7 @@
     <Folder Include="CustomAttributes\" />
     <Folder Include="CustomServices\" />
     <Folder Include="Settings\" />
+    <Folder Include="Views\Clocking\" />
+    <Folder Include="Models\CustomViewModels\" />
   </ItemGroup>
 </Project>
