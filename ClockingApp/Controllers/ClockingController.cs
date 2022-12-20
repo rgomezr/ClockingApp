@@ -78,7 +78,8 @@ namespace ClockingApp.Controllers
                     clocking.AddToBreakList(breakDay);
                     await _clockingService._clockingRepo.FindOneAndReplaceAsync(clocking => clocking.ClockingDate == currentDate.Date, clocking);
                     return Json(Url.Action("Index", "Home"));
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     //TODO: Return appropiate Bad Request with exception message back
                     return Json(String.Format("An error occurred while updating clocking: {0}", ex.Message));
@@ -110,18 +111,19 @@ namespace ClockingApp.Controllers
             }
         }
 
-        public async Task<ActionResult> GetAllClockingsForUserAndWeek([FromQuery] int weekNumber)
+        public async Task<ActionResult> GetAllClockingsForUserAndWeek(DateTime weekDate)
         {
+            int weekNumber = ISOWeek.GetWeekOfYear(weekDate);
             IList<Clocking> weekClockings = (await _clockingService._clockingRepo.FindAllAsync(clocking => clocking.Username.Equals(_userSettings.Username) &&
-                                            clocking.ClockingWeek.Equals(weekNumber))).ToList();
+                                                clocking.ClockingWeek.Equals(weekNumber))).ToList();
             return View("ClockingsForUserAndWeek", weekClockings);
         }
 
-        private async Task<Clocking> RetrieveClockingById (string clockingId)
+        private async Task<Clocking> RetrieveClockingById(string clockingId)
         {
             return await _clockingService._clockingRepo.FindByIdAsync(clockingId);
         }
-        
+
 
     }
 }

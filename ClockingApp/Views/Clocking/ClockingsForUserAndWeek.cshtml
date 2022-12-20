@@ -1,5 +1,22 @@
 ﻿@model IList<ClockingApp.Models.ClockingData.Clocking>
 @{
+
+    <form method="get" action="GetAllClockingsForUserAndWeek">
+        <div class="form-group">
+            <label for="weekDate">Select Week</label>
+            <div class="row">
+                <div class="col">
+                    <input class="form-control" type="date" id="weekDate" name="weekDate" />
+                </div>
+                <div class="col">
+                    <button class="btn btn-sm btn-primary" type="submit">Show</button>
+                </div>
+            </div>
+            
+            <small class="text-muted form-text">Week no. will be extracted from your date</small>
+        </div>
+    </form>
+    //TODO: All this below should be a Component view
     <table class="table table-striped">
         <thead>
             <tr>
@@ -17,8 +34,8 @@
                     <td>@clocking.ClockingDate.ToString("D")</td>
                     <td>@clocking.WorkDay.StartDate.ToString("t")</td>
                     <td>@(clocking.WorkDay.IsWorkFinished ? ((DateTime)clocking.WorkDay.EndDate).ToString("t") : "")</td>
-                    <td>@clocking.WorkDay.Duration.ToString("#.#")</td>
-                    <td>@String.Format("{0} Breaks ({1})", clocking.NumberOfBreaks, clocking.BreakDuration)</td>
+                    <td>@clocking.WorkDay.Duration_formatted</td>
+                    <td>@String.Format("{0} Breaks ({1})", clocking.NumberOfBreaks, clocking.BreakDuration_formatted)</td>
 
                 </tr>
             }
