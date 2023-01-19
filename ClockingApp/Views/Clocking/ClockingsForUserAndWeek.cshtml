@@ -1,0 +1,28 @@
+﻿@model IList<ClockingApp.Models.ClockingData.Clocking>
+@{
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Work Start</th>
+                <th>Work End</th>
+                <th>Work Duration</th>
+                <th>Breaks</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ClockingApp.Models.ClockingData.Clocking clocking in Model)
+            {
+                <tr>
+                    <td>@clocking.ClockingDate.ToString("D")</td>
+                    <td>@clocking.WorkDay.StartDate.ToString("t")</td>
+                    <td>@(clocking.WorkDay.IsWorkFinished ? ((DateTime)clocking.WorkDay.EndDate).ToString("t") : "")</td>
+                    <td>@clocking.WorkDay.Duration.ToString("#.#")</td>
+                    <td>@String.Format("{0} Breaks ({1})", clocking.NumberOfBreaks, clocking.BreakDuration)</td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

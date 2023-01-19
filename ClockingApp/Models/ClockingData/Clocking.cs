@@ -13,6 +13,8 @@ namespace ClockingApp.Models.ClockingData
         public DateTime ClockingDate { get; set; }
         public WorkDay WorkDay { get; set; } = null!;
         public List<BreakDay>? Breaks { get; set; } = null!;
+        public double BreakDuration => (Breaks != null) ? Breaks.Sum(_break => _break.Duration) : 0;
+        public short NumberOfBreaks => (Breaks != null) ? (short)Breaks.Count : (short)0;
 
         public Clocking(string username, int clockingWeek, DateTime clockingDate, WorkDay workDay, List<BreakDay>? breaks)
         {
