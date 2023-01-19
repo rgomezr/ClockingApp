@@ -1,61 +1,9 @@
 ﻿@model ClockingApp.Models.ClockingData.Clocking
 @{
     ClockingApp.Models.ClockingData.Clocking clocking = Model;
-    string username = clocking != null ? clocking.Username : "Unknown"; // change this to appsettings.json username
+    string username = ViewBag.username;
     DateTime currentDate = DateTime.Now.Date;
 }
-
-<!--script src="~/Clocking.js"></!--script>-->
-<script>function StartWork(user) {
-        $.ajax({
-            type: "POST",
-            url: "/Clocking/StartWork",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(user),
-            success: function (_dataBack) {
-                window.location.href = _dataBack;
-            }
-        });
-}
-
-    function FinishWork(clockingId) {
-        $.ajax({
-            type: "POST",
-            url: "/Clocking/FinishWork",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(clockingId),
-            success: function (_dataBack) {
-                window.location.href = _dataBack;
-            }
-        });
-    }
-
-    function StartBreak(clockingId) {
-        $.ajax({
-            type: "POST",
-            url: "/Clocking/StartBreak",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(clockingId),
-            success: function (_dataBack) {
-                window.location.href = _dataBack;
-            }
-        });
-    }
-    function FinishBreak(clockingId) {
-        $.ajax({
-            type: "POST",
-            url: "/Clocking/FinishBreak",
-            dataType: "json",
-            contentType: "application/json; charset=utf-8",
-            data: JSON.stringify(clockingId),
-            success: function (_dataBack) {
-                window.location.href = _dataBack;
-            }
-        });
-    }</script>
 
 <section id="welcomeSection">
     <div class="text-center">
@@ -73,7 +21,7 @@
                     <div class="m-2">
                         @if (clocking == null)
                         {
-                            <button class="btn btn-sm btn-outline-primary" onclick="StartWork('gomezr')">Start Work</button>
+                            <button class="btn btn-sm btn-outline-primary" onclick="StartWork()">Start Work</button>
                         }
                         else if (clocking.WorkDay != null && clocking.WorkDay.IsWorkActive)
                         {
@@ -106,7 +54,7 @@
                                     End: @(clocking.WorkDay != null && clocking.WorkDay.IsWorkFinished ? clocking.WorkDay.EndDate: null)
                                 </li>
                                 <li>
-                                    Duration (h): @(clocking.WorkDay != null ? clocking.WorkDay.Duration.ToString("#.##") : null)
+                                    Duration (h): @(clocking.WorkDay != null ? clocking.WorkDay.Duration_formatted : null)
                                 </li>
                             </ul>
                         </li>
@@ -128,7 +76,7 @@
                                             <tr>
                                                 <td>@_break.StartDate</td>
                                                 <td>@_break.EndDate</td>
-                                                <td>@_break.Duration</td>
+                                                <td>@_break.Duration_formatted</td>
                                             </tr>
                                         }
                                     </tbody>
@@ -151,35 +99,3 @@
 
     </div>
 </section>
-<!--
-<section id="weeksClocking">
-    <div class="text-left">
-        <h5>For this week</h5>
-    </div>
-    <div class="center">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>id</th>
-                    <th>username</th>
-                    <th>Date</th>
-                    <th>Work Times</th>
-                </tr>
-            </thead>
-            <tbody>
-                @*foreach (ClockingApp.Models.ClockingData.Clocking clockingItem in Model.WeeksClocking)
-                {
-                    <tr>
-                        <td>@clockingItem._id</td>
-                        <td>@clockingItem.Username</td>
-                        <td>@clockingItem.ClockingDate.ToString()</td>
-                        <td>@String.Format("{0} -> {1}", clockingItem.WorkDay.StartDate, clockingItem.WorkDay.EndDate)</td>
-
-                    </tr>
-                }
-                *@
-            </tbody>
-        </table>
-    </div>
-</section>
--->

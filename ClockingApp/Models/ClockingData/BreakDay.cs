@@ -13,7 +13,8 @@ namespace ClockingApp.Models.ClockingData
         public bool IsBreakFinished => StartDate != null && EndDate != null;
         [DoublePrecision(2)]
         public double Duration => IsBreakActive ? (DateTime.Now - ((DateTime)StartDate)).TotalHours : IsBreakFinished
-            ? (((DateTime)EndDate) - ((DateTime)StartDate)).TotalHours : 0;
+            ? (((DateTime)EndDate) - ((DateTime)StartDate)).TotalMinutes : 0;
+        public string Duration_formatted => this.Duration.ToString("##.#");
 
         public BreakDay(DateTime? startDate, DateTime? endDate)
         {

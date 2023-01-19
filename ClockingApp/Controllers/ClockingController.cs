@@ -3,6 +3,7 @@ using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using ClockingApp.CustomServices;
 using ClockingApp.Models.ClockingData;
+using ClockingApp.Settings;
 using MongoDB.Bson;
 
 namespace ClockingApp.Controllers
@@ -10,24 +11,26 @@ namespace ClockingApp.Controllers
     public class ClockingController : Controller
     {
         private readonly ClockingService _clockingService;
+        private readonly IUserSettings _userSettings;
 
-        public ClockingController(ClockingService clockingService)
+        public ClockingController(ClockingService clockingService, IUserSettings userSettings)
         {
             _clockingService = clockingService;
+            _userSettings = userSettings;
         }
 
-        public async Task<IActionResult> GetClockingsForUsername(string username)
+        public async Task<IActionResult> GetClockingsForUsername()
         {
-            IList<Clocking> clockings = (await _clockingService._clockingRepo.FindAllAsync(clocking => clocking.Username.Equals(username))).ToList();
+            IList<Clocking> clockings = (await _clockingService._clockingRepo.FindAllAsync(clocking => clocking.Username.Equals(_userSettings.Username))).ToList();
             return View(clockings);
         }
 
         [HttpPost]
-        public async Task<ActionResult> StartWork([FromBody] string username)
+        public async Task<ActionResult> StartWork()
         {
             DateTime currentDate = DateTime.Now;
             WorkDay workDay = new WorkDay(currentDate, null);
-            Clocking clocking = new Clocking(username, ISOWeek.GetWeekOfYear(currentDate), currentDate.Date, workDay, null);
+            Clocking clocking = new Clocking(_userSettings.Username, ISOWeek.GetWeekOfYear(currentDate), currentDate.Date, workDay, null);
             await _clockingService._clockingRepo.InsertOneAsync(clocking);
             return Json(Url.Action("Index", "Home"));
 
@@ -75,7 +78,8 @@ namespace ClockingApp.Controllers
                     clocking.AddToBreakList(breakDay);
                     await _clockingService._clockingRepo.FindOneAndReplaceAsync(clocking => clocking.ClockingDate == currentDate.Date, clocking);
                     return Json(Url.Action("Index", "Home"));
-                } catch (Exception ex)
+                }
+                catch (Exception ex)
                 {
                     //TODO: Return appropiate Bad Request with exception message back
                     return Json(String.Format("An error occurred while updating clocking: {0}", ex.Message));
@@ -107,7 +111,15 @@ namespace ClockingApp.Controllers
             }
         }
 
-        private async Task<Clocking> RetrieveClockingById (string clockingId)
+        public async Task<ActionResult> GetAllClockingsForUserAndWeek(DateTime weekDate)
+        {
+            int weekNumber = ISOWeek.GetWeekOfYear(weekDate);
+            IList<Clocking> weekClockings = (await _clockingService._clockingRepo.FindAllAsync(clocking => clocking.Username.Equals(_userSettings.Username) &&
+                                                clocking.ClockingWeek.Equals(weekNumber))).ToList();
+            return View("ClockingsForUserAndWeek", weekClockings);
+        }
+
+        private async Task<Clocking> RetrieveClockingById(string clockingId)
         {
             return await _clockingService._clockingRepo.FindByIdAsync(clockingId);
         }
