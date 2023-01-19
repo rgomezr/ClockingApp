@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using ClockingApp.Models;
 using ClockingApp.CustomServices;
 using ClockingApp.Models.ClockingData;
+using ClockingApp.Models.CustomViewModels;
 using ClockingApp.Settings;
 
 namespace ClockingApp.Controllers;
@@ -23,7 +24,8 @@ public class HomeController : Controller
     public async Task<IActionResult> Index()
     {
         DateTime today = DateTime.Now.Date;
-        Clocking todaysClocking = await _clockingService._clockingRepo.FindOneAsync(clocking => clocking.Username.Equals(_userSettings.Username) && clocking.ClockingDate == today);
+        string username = _userSettings.Username;
+        Clocking todaysClocking = await _clockingService._clockingRepo.FindOneAsync(clocking => clocking.Username.Equals(username) && clocking.ClockingDate == today);
 
         return View(todaysClocking);
     }

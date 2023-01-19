@@ -3,7 +3,6 @@ using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using ClockingApp.CustomServices;
 using ClockingApp.Models.ClockingData;
-using ClockingApp.Settings;
 using MongoDB.Bson;
 
 namespace ClockingApp.Controllers
@@ -11,26 +10,24 @@ namespace ClockingApp.Controllers
     public class ClockingController : Controller
     {
         private readonly ClockingService _clockingService;
-        private readonly IUserSettings _userSettings;
 
-        public ClockingController(ClockingService clockingService, IUserSettings userSettings)
+        public ClockingController(ClockingService clockingService)
         {
             _clockingService = clockingService;
-            _userSettings = userSettings;
         }
 
-        public async Task<IActionResult> GetClockingsForUsername()
+        public async Task<IActionResult> GetClockingsForUsername(string username)
         {
-            IList<Clocking> clockings = (await _clockingService._clockingRepo.FindAllAsync(clocking => clocking.Username.Equals(_userSettings.Username))).ToList();
+            IList<Clocking> clockings = (await _clockingService._clockingRepo.FindAllAsync(clocking => clocking.Username.Equals(username))).ToList();
             return View(clockings);
         }
 
         [HttpPost]
-        public async Task<ActionResult> StartWork()
+        public async Task<ActionResult> StartWork([FromBody] string username)
         {
             DateTime currentDate = DateTime.Now;
             WorkDay workDay = new WorkDay(currentDate, null);
-            Clocking clocking = new Clocking(_userSettings.Username, ISOWeek.GetWeekOfYear(currentDate), currentDate.Date, workDay, null);
+            Clocking clocking = new Clocking(username, ISOWeek.GetWeekOfYear(currentDate), currentDate.Date, workDay, null);
             await _clockingService._clockingRepo.InsertOneAsync(clocking);
             return Json(Url.Action("Index", "Home"));
 
@@ -110,18 +107,11 @@ namespace ClockingApp.Controllers
             }
         }
 
-        public async Task<ActionResult> GetAllClockingsForUserAndWeek([FromQuery] int weekNumber)
-        {
-            IList<Clocking> weekClockings = (await _clockingService._clockingRepo.FindAllAsync(clocking => clocking.Username.Equals(_userSettings.Username) &&
-                                            clocking.ClockingWeek.Equals(weekNumber))).ToList();
-            return View("ClockingsForUserAndWeek", weekClockings);
-        }
-
         private async Task<Clocking> RetrieveClockingById (string clockingId)
         {
             return await _clockingService._clockingRepo.FindByIdAsync(clockingId);
         }
-        
+
 
     }
 }
