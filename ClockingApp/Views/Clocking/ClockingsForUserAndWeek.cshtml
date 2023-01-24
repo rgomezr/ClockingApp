@@ -1,4 +1,4 @@
-﻿@model IList<ClockingApp.Models.ClockingData.Clocking>
+﻿@model ClockingApp.Models.ClockingData.WeeklyClockingInfo
 @{
 
     <form method="get" action="GetAllClockingsForUserAndWeek">
@@ -12,34 +12,60 @@
                     <button class="btn btn-sm btn-primary" type="submit">Show</button>
                 </div>
             </div>
-            
             <small class="text-muted form-text">Week no. will be extracted from your date</small>
         </div>
     </form>
-    //TODO: All this below should be a Component view
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Work Start</th>
-                <th>Work End</th>
-                <th>Work Duration</th>
-                <th>Breaks</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (ClockingApp.Models.ClockingData.Clocking clocking in Model)
-            {
-                <tr>
-                    <td>@clocking.ClockingDate.ToString("D")</td>
-                    <td>@clocking.WorkDay.StartDate.ToString("t")</td>
-                    <td>@(clocking.WorkDay.IsWorkFinished ? ((DateTime)clocking.WorkDay.EndDate).ToString("t") : "")</td>
-                    <td>@clocking.WorkDay.Duration_formatted</td>
-                    <td>@String.Format("{0} Breaks ({1})", clocking.NumberOfBreaks, clocking.BreakDuration_formatted)</td>
 
-                </tr>
-            }
-        </tbody>
-    </table>
+    //TODO: All this below should be a Component view
+    @if (Model != null)
+    {
+        <div class="rectangle">
+            <div class="containerGroup">
+                <span class="header color-white">Clocking Invoice</span>
+                <span class="color-white">@Model.ClockingWeek_formatted</span>
+            </div>
+        </div>
+        <div class="">
+
+        </div>
+        @if (Model.WeeklyClockings != null)
+        {
+            <table class="table table-borderless">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Work Start</th>
+                        <th>Work End</th>
+                        <th>Work Duration</th>
+                        <th>Breaks</th>
+                        <th>Breaks Breakdown</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (ClockingApp.Models.ClockingData.Clocking clocking in Model.WeeklyClockings)
+                    {
+                        <tr>
+                            <td>@clocking.ClockingDate.ToString("D")</td>
+                            <td>@clocking.WorkDay.StartDate.ToString("t")</td>
+                            <td>@(clocking.WorkDay.IsWorkFinished ? ((DateTime)clocking.WorkDay.EndDate).ToString("t") : "")</td>
+                            <td>@clocking.WorkDay.Duration_formatted</td>
+                            <td>@String.Format("{0} Breaks ({1})", clocking.NumberOfBreaks, clocking.BreakDuration_formatted)</td>
+                            <td>
+                                @if (clocking.Breaks != null)
+                                {
+                                    <ul>
+                                        @foreach (var _break in clocking.Breaks)
+                                        {
+                                            <li>@String.Format("{0} → {1}", ((DateTime)_break.StartDate).ToString("t"), ((DateTime)_break.EndDate).ToString("t"))</li>
+                                        }
+                                    </ul>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
 }
 

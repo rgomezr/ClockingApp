@@ -1,18 +1,48 @@
 ﻿html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+.color-white {
+    color: white;
+}
+
+.rectangle {
+    margin: 0 0 20px;
+    padding: 30px;
+    background-color: deepskyblue;
+}
+
+    .rectangle .containerGroup {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .rectangle .header {
+        font-size: large;
+        font-weight: bold;
+    }
+
+    .rectangle .text-right {
+        text-align: right;
+    }
+
+
+
+table th {
+    text-align: left;
 }
