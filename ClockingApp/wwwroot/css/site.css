@@ -26,12 +26,6 @@ body {
     padding: 30px;
     background-color: deepskyblue;
 }
-
-    .rectangle .containerGroup {
-        display: flex;
-        justify-content: space-between;
-    }
-
     .rectangle .header {
         font-size: large;
         font-weight: bold;
@@ -41,7 +35,10 @@ body {
         text-align: right;
     }
 
-
+.containerGroup {
+    display: flex;
+    justify-content: space-between;
+}
 
 table th {
     text-align: left;

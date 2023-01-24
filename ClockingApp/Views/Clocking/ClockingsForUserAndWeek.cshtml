@@ -25,8 +25,11 @@
                 <span class="color-white">@Model.ClockingWeek_formatted</span>
             </div>
         </div>
-        <div class="">
-
+        <span>@String.Format("USER: {0}", Model.Username)</span>
+        <div class="containerGroup">
+            <span class="header">SUMMARY</span>
+            <span>@String.Format("Working Hours: {0}h", Model.WorkingHours)</span>
+            <span>@String.Format("Working Days: {0}", Model.WorkingDaysCount)</span>
         </div>
         @if (Model.WeeklyClockings != null)
         {
