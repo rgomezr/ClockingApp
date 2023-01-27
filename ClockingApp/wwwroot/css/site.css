@@ -32,8 +32,9 @@ body {
         font-weight: bold;
     }
 
-    .rectangle .text-right {
-        text-align: right;
+    .rectangle .text {
+        font-size: large;
+        text-align:end;
     }
 
 .containerGroup {
@@ -54,4 +55,28 @@ body {
 
 table th {
     text-align: left;
+}
+
+.hasSmallPrint {
+}
+
+    .hasSmallPrint::after {
+        content: "*"
+    }
+
+.smallPrint {
+    font-weight: 200;
+    font-size: small;
+    color: steelblue;
+}
+
+    .smallPrint::before {
+        content: "*";
+    }
+
+.additionalInfo {
+    /*color code refers to steelblue - now, with opacity added*/
+    font-weight: 200;
+    font-size: medium;
+    color: rgba(70,130,180, 30);
 }

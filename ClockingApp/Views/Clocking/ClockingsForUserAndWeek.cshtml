@@ -22,7 +22,7 @@
         <div class="rectangle">
             <div class="containerGroup">
                 <span class="header color-white">Clocking Invoice</span>
-                <span class="color-white">@Model.ClockingWeek_formatted</span>
+                <span class="text color-white">@Model.ClockingWeek_formatted</span>
             </div>
         </div>
         <div class="containerGroup">
@@ -34,7 +34,7 @@
             </div>
             <div>
                 <span class="summaryGroupLabel">Working Hours:</span>
-                <span class="summaryGroupData">
+                <span class="summaryGroupData hasSmallPrint">
                     @Model.WorkingHours_formatted
                 </span>
             </div>
@@ -83,6 +83,8 @@
                 </tbody>
             </table>
         }
+    <p class="additionalInfo">Any anomalies or questions about clocking data stated within this document, please contact ramon@ramongomez.xyz</p>
+    <p class="smallPrint">Working hours only include paid 15 minutes break. All additional breaks are not included in this figure.</p>
     }
 }
 
