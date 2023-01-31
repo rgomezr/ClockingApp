@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using ClockingApp.CustomServices;
 using ClockingApp.Models.ClockingData;
 using ClockingApp.Settings;
-using MongoDB.Bson;
 
 namespace ClockingApp.Controllers
 {
@@ -116,15 +115,14 @@ namespace ClockingApp.Controllers
             int weekNumber = ISOWeek.GetWeekOfYear(weekDate);
             IList<Clocking> weekClockings = (await _clockingService._clockingRepo.FindAllAsync(clocking => clocking.Username.Equals(_userSettings.Username) &&
                                                 clocking.ClockingWeek.Equals(weekNumber))).ToList();
-            return View("ClockingsForUserAndWeek", weekClockings);
+            WeeklyClockingInfo weeklyClockingInfo = new WeeklyClockingInfo(weekClockings);
+            return View("ClockingsForUserAndWeek", weeklyClockingInfo);
         }
 
         private async Task<Clocking> RetrieveClockingById(string clockingId)
         {
             return await _clockingService._clockingRepo.FindByIdAsync(clockingId);
         }
-
-
     }
 }
 

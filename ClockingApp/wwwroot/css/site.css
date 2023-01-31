@@ -1,18 +1,82 @@
 ﻿html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+}
+
+.color-white {
+    color: white;
+}
+
+.rectangle {
+    margin: 0 0 20px;
+    padding: 30px;
+    background-color: steelblue;
+}
+
+    .rectangle .header {
+        font-size: x-large;
+        font-weight: bold;
+    }
+
+    .rectangle .text {
+        font-size: large;
+        text-align:end;
+    }
+
+.containerGroup {
+    display: flex;
+    justify-content: space-between;
+}
+
+.summaryGroupLabel {
+    font-weight: bold;
+    font-size: large;
+}
+
+.summaryGroupData {
+    font-weight: 300;
+    font-size: x-large;
+    color: steelblue;
+}
+
+table th {
+    text-align: left;
+}
+
+.hasSmallPrint {
+}
+
+    .hasSmallPrint::after {
+        content: "*"
+    }
+
+.smallPrint {
+    font-weight: 200;
+    font-size: small;
+    color: steelblue;
+}
+
+    .smallPrint::before {
+        content: "*";
+    }
+
+.additionalInfo {
+    /*color code refers to steelblue - now, with opacity added*/
+    font-weight: 200;
+    font-size: medium;
+    color: rgba(70,130,180, 30);
 }

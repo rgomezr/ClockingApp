@@ -21,6 +21,7 @@
     <None Remove="Settings\" />
     <None Remove="Views\Clocking\" />
     <None Remove="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" />
+    <None Remove="Select.HtmlToPdf.NetCore" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repository\" />
