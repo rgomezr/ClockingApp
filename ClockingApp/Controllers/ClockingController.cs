@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using ClockingApp.CustomServices;
 using ClockingApp.Models.ClockingData;
 using ClockingApp.Settings;
-using SelectPdf;
-using SelectPdf.Lib;
 
 namespace ClockingApp.Controllers
 {
