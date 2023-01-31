@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using ClockingApp.CustomServices;
 using ClockingApp.Models.ClockingData;
 using ClockingApp.Settings;
-using MongoDB.Bson;
+using SelectPdf;
+using SelectPdf.Lib;
 
 namespace ClockingApp.Controllers
 {
@@ -124,8 +125,6 @@ namespace ClockingApp.Controllers
         {
             return await _clockingService._clockingRepo.FindByIdAsync(clockingId);
         }
-
-
     }
 }
 
