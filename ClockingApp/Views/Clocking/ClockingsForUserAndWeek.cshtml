@@ -22,31 +22,32 @@
         <div class="rectangle">
             <div class="containerGroup">
                 <span class="header color-white">Clocking Invoice</span>
-                <span class="text color-white">@Model.ClockingWeek_formatted</span>
+                <span class="text color-white hasSmallPrint">@Model.ClockingWeek_formatted</span>
             </div>
         </div>
         <div class="containerGroup">
             <div>
-                <span class="summaryGroupLabel">User:</span>
-                <span class="summaryGroupData">
+                <span class="groupLabel">User:</span>
+                <span class="groupData">
                     @Model.Username
                 </span>
             </div>
             <div>
-                <span class="summaryGroupLabel">Working Hours:</span>
-                <span class="summaryGroupData hasSmallPrint">
+                <span class="groupLabel">Working Hours:</span>
+                <span class="groupData hasSecondSmallPrint">
                     @Model.WorkingHours_formatted
                 </span>
             </div>
             <div>
-                <span class="summaryGroupLabel">Working Days:</span>
-                <span class="summaryGroupData">
+                <span class="groupLabel">Working Days:</span>
+                <span class="groupData">
                     @Model.WorkingDaysCount
                 </span>
             </div>
         </div>
         @if (Model.WeeklyClockings != null)
         {
+            <p class="groupLabel smallMarginTop">Breakdown</p>
             <table class="table table-borderless">
                 <thead>
                     <tr>
@@ -73,7 +74,7 @@
                                     <ul>
                                         @foreach (var _break in clocking.Breaks)
                                         {
-                                            <li>@String.Format("{0} → {1}", ((DateTime)_break.StartDate).ToString("t"), ((DateTime)_break.EndDate).ToString("t"))</li>
+                                            <li>@String.Format("{0} → {1} ({2})", ((DateTime)_break.StartDate).ToString("t"), ((DateTime)_break.EndDate).ToString("t"), _break.Duration_formatted)</li>
                                         }
                                     </ul>
                                 }
@@ -84,7 +85,8 @@
             </table>
         }
     <p class="additionalInfo">Any anomalies or questions about clocking data stated within this document, please contact ramon@ramongomez.xyz</p>
-    <p class="smallPrint">Working hours only include paid 15 minutes break. All additional breaks are not included in this figure.</p>
+    <p class="smallPrint">Week number is not to be confused with Payslip period. Week number shown refers to Clocking week stated above</p>
+    <p class="secondSmallPrint">Working hours only include paid 15 minutes break. All additional breaks are not included in this figure.</p>
     }
 }
 
