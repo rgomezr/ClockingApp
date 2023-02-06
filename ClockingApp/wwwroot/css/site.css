@@ -21,6 +21,10 @@ body {
     color: white;
 }
 
+.smallMarginTop {
+    margin: 10px 0 0 0;
+}
+
 .rectangle {
     margin: 0 0 20px;
     padding: 30px;
@@ -34,20 +38,20 @@ body {
 
     .rectangle .text {
         font-size: large;
-        text-align:end;
     }
 
 .containerGroup {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 }
 
-.summaryGroupLabel {
+.groupLabel {
     font-weight: bold;
     font-size: large;
 }
 
-.summaryGroupData {
+.groupData {
     font-weight: 300;
     font-size: x-large;
     color: steelblue;
@@ -64,6 +68,13 @@ table th {
         content: "*"
     }
 
+.hasSecondSmallPrint {
+}
+
+    .hasSecondSmallPrint::after {
+        content: "**";
+    }
+
 .smallPrint {
     font-weight: 200;
     font-size: small;
@@ -72,6 +83,16 @@ table th {
 
     .smallPrint::before {
         content: "*";
+    }
+
+.secondSmallPrint {
+    font-weight: 200;
+    font-size: small;
+    color: steelblue;
+}
+
+    .secondSmallPrint::before {
+        content: "**";
     }
 
 .additionalInfo {

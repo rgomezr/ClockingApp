@@ -4,13 +4,15 @@
     <form method="get" action="GetAllClockingsForUserAndWeek">
         <div class="form-group">
             <label for="weekDate">Select Week</label>
-            <div class="row">
-                <div class="col">
+            <div class="containerGroup">
+                <div class="containerGroup">
                     <input class="form-control" type="date" id="weekDate" name="weekDate" />
+                    <button type="submit" class="btn btn-sm btn-primary">Show</button>
                 </div>
-                <div class="col">
-                    <button class="btn btn-sm btn-primary" type="submit">Show</button>
-                </div>
+                @if (Model != null)
+                {
+                    <button type="button" class="btn btn-sm btn-light" onclick="window.open('@(Url.Action("GetClockingInvoiceForWeek","Clocking", new { weekNumber = Model.ClockingWeek}))', '_blank')">↓ Download</button>
+                }
             </div>
             <small class="text-muted form-text">Week no. will be extracted from your date</small>
         </div>
@@ -22,31 +24,32 @@
         <div class="rectangle">
             <div class="containerGroup">
                 <span class="header color-white">Clocking Invoice</span>
-                <span class="text color-white">@Model.ClockingWeek_formatted</span>
+                <span class="text color-white hasSmallPrint">@Model.ClockingWeek_formatted</span>
             </div>
         </div>
         <div class="containerGroup">
             <div>
-                <span class="summaryGroupLabel">User:</span>
-                <span class="summaryGroupData">
+                <span class="groupLabel">User:</span>
+                <span class="groupData">
                     @Model.Username
                 </span>
             </div>
             <div>
-                <span class="summaryGroupLabel">Working Hours:</span>
-                <span class="summaryGroupData hasSmallPrint">
-                    @Model.WorkingHours_formatted
+                <span class="groupLabel">Working Hours:</span>
+                <span class="groupData hasSecondSmallPrint">
+                    @Model.PaidWorkingHours_formatted
                 </span>
             </div>
             <div>
-                <span class="summaryGroupLabel">Working Days:</span>
-                <span class="summaryGroupData">
+                <span class="groupLabel">Working Days:</span>
+                <span class="groupData">
                     @Model.WorkingDaysCount
                 </span>
             </div>
         </div>
         @if (Model.WeeklyClockings != null)
         {
+            <p class="groupLabel smallMarginTop">Breakdown</p>
             <table class="table table-borderless">
                 <thead>
                     <tr>
@@ -65,7 +68,7 @@
                             <td>@clocking.ClockingDate.ToString("D")</td>
                             <td>@clocking.WorkDay.StartDate.ToString("t")</td>
                             <td>@(clocking.WorkDay.IsWorkFinished ? ((DateTime)clocking.WorkDay.EndDate).ToString("t") : "")</td>
-                            <td>@clocking.WorkDay.Duration_formatted</td>
+                            <td class="hasSecondSmallPrint">@clocking.WorkingHoursPaid_formatted</td>
                             <td>@String.Format("{0} Breaks ({1})", clocking.NumberOfBreaks, clocking.BreakDuration_formatted)</td>
                             <td>
                                 @if (clocking.Breaks != null)
@@ -73,7 +76,7 @@
                                     <ul>
                                         @foreach (var _break in clocking.Breaks)
                                         {
-                                            <li>@String.Format("{0} → {1}", ((DateTime)_break.StartDate).ToString("t"), ((DateTime)_break.EndDate).ToString("t"))</li>
+                                            <li>@String.Format("{0} → {1} ({2})", ((DateTime)_break.StartDate).ToString("t"), ((DateTime)_break.EndDate).ToString("t"), _break.Duration_formatted)</li>
                                         }
                                     </ul>
                                 }
@@ -83,8 +86,9 @@
                 </tbody>
             </table>
         }
-    <p class="additionalInfo">Any anomalies or questions about clocking data stated within this document, please contact ramon@ramongomez.xyz</p>
-    <p class="smallPrint">Working hours only include paid 15 minutes break. All additional breaks are not included in this figure.</p>
+        <p class="additionalInfo">Any anomalies or questions about clocking data stated within this document, please contact ramon@ramongomez.xyz</p>
+        <p class="smallPrint">Week number is not to be confused with Payslip period. Week number shown refers to Clocking week stated above</p>
+        <p class="secondSmallPrint">Working hours only include paid 15 minutes break. All additional breaks are not included in this figure.</p>
     }
 }
 
