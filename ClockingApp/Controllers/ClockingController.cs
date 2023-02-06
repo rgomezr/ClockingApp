@@ -127,6 +127,18 @@ namespace ClockingApp.Controllers
             return View("ClockingsForUserAndWeek", weeklyClockingInfo);
         }
 
+        public async Task<ActionResult> GetClockingInvoiceForWeek(int weekNumber)
+        {
+            IList<Clocking> weekClockings = (await _clockingService._clockingRepo.FindAllAsync(clocking => clocking.Username.Equals(_userSettings.Username) &&
+                                                clocking.ClockingWeek.Equals(weekNumber))).ToList();
+            foreach (Clocking clocking in weekClockings)
+            {
+                clocking.SetClockingSettings(_clockingSettings);
+            }
+            WeeklyClockingInfo weeklyClockingInfo = new WeeklyClockingInfo(weekClockings);
+            return View("ClockingsInvoicePDF", weeklyClockingInfo);
+        }
+
         private async Task<Clocking> RetrieveClockingById(string clockingId)
         {
             return await _clockingService._clockingRepo.FindByIdAsync(clockingId);

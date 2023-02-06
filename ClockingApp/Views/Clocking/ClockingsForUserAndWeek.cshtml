@@ -4,13 +4,15 @@
     <form method="get" action="GetAllClockingsForUserAndWeek">
         <div class="form-group">
             <label for="weekDate">Select Week</label>
-            <div class="row">
-                <div class="col">
+            <div class="containerGroup">
+                <div class="containerGroup">
                     <input class="form-control" type="date" id="weekDate" name="weekDate" />
+                    <button type="submit" class="btn btn-sm btn-primary">Show</button>
                 </div>
-                <div class="col">
-                    <button class="btn btn-sm btn-primary" type="submit">Show</button>
-                </div>
+                @if (Model != null)
+                {
+                    <button type="button" class="btn btn-sm btn-light" onclick="window.open('@(Url.Action("GetClockingInvoiceForWeek","Clocking", new { weekNumber = Model.ClockingWeek}))', '_blank')">↓ Download</button>
+                }
             </div>
             <small class="text-muted form-text">Week no. will be extracted from your date</small>
         </div>
@@ -84,9 +86,9 @@
                 </tbody>
             </table>
         }
-    <p class="additionalInfo">Any anomalies or questions about clocking data stated within this document, please contact ramon@ramongomez.xyz</p>
-    <p class="smallPrint">Week number is not to be confused with Payslip period. Week number shown refers to Clocking week stated above</p>
-    <p class="secondSmallPrint">Working hours only include paid 15 minutes break. All additional breaks are not included in this figure.</p>
+        <p class="additionalInfo">Any anomalies or questions about clocking data stated within this document, please contact ramon@ramongomez.xyz</p>
+        <p class="smallPrint">Week number is not to be confused with Payslip period. Week number shown refers to Clocking week stated above</p>
+        <p class="secondSmallPrint">Working hours only include paid 15 minutes break. All additional breaks are not included in this figure.</p>
     }
 }
 
