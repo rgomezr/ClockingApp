@@ -11,16 +11,20 @@ namespace ClockingApp.Controllers
     {
         private readonly ClockingService _clockingService;
         private readonly IUserSettings _userSettings;
+        private readonly IClockingSettings _clockingSettings;
 
-        public ClockingController(ClockingService clockingService, IUserSettings userSettings)
+        public ClockingController(ClockingService clockingService, IUserSettings userSettings, IClockingSettings clockingSettings)
         {
             _clockingService = clockingService;
             _userSettings = userSettings;
+            _clockingSettings = clockingSettings;
         }
 
         public async Task<IActionResult> GetClockingsForUsername()
         {
-            IList<Clocking> clockings = (await _clockingService._clockingRepo.FindAllAsync(clocking => clocking.Username.Equals(_userSettings.Username))).ToList();
+            IList<Clocking> clockings = (await _clockingService._clockingRepo
+                                        .FindAllAsync(clocking => clocking.Username.Equals(_userSettings.Username)))
+                                        .ToList();
             return View(clockings);
         }
 
@@ -115,6 +119,10 @@ namespace ClockingApp.Controllers
             int weekNumber = ISOWeek.GetWeekOfYear(weekDate);
             IList<Clocking> weekClockings = (await _clockingService._clockingRepo.FindAllAsync(clocking => clocking.Username.Equals(_userSettings.Username) &&
                                                 clocking.ClockingWeek.Equals(weekNumber))).ToList();
+            foreach (Clocking clocking in weekClockings)
+            {
+                clocking.SetClockingSettings(_clockingSettings);
+            }
             WeeklyClockingInfo weeklyClockingInfo = new WeeklyClockingInfo(weekClockings);
             return View("ClockingsForUserAndWeek", weeklyClockingInfo);
         }

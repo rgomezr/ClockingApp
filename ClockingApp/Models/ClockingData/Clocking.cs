@@ -1,5 +1,6 @@
 ﻿using ClockingApp.CustomAttributes;
 using ClockingApp.Models.MongoAbstraction;
+using ClockingApp.Settings;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace ClockingApp.Models.ClockingData
@@ -15,8 +16,10 @@ namespace ClockingApp.Models.ClockingData
         public List<BreakDay>? Breaks { get; set; } = null!;
         public short NumberOfBreaks => (Breaks != null) ? (short)Breaks.Count : (short)0;
         public double BreakDuration => (Breaks != null) ? Breaks.Sum(_break => _break.Duration) : 0;
-        public string BreakDuration_formatted => String.Format("{0}{1}",BreakDuration.ToString("##"), "m");
-        
+        public string BreakDuration_formatted => this.BreakDuration != 0 ? String.Format("{0}{1}", BreakDuration.ToString("##"), "m") : "";
+        private double PaidBreakTime { get; set; }
+        public double WorkingHoursPaid => WorkDay.Duration - ((BreakDuration - PaidBreakTime) / 60);
+        public string WorkingHoursPaid_formatted => String.Format("{0}{1}", this.WorkingHoursPaid.ToString("##.#"), "h");
 
 
         public Clocking(string username, int clockingWeek, DateTime clockingDate, WorkDay workDay, List<BreakDay>? breaks)
@@ -58,6 +61,15 @@ namespace ClockingApp.Models.ClockingData
                 DateTime currentDate = DateTime.Now;
                 Breaks.Find(_break => _break.IsBreakActive).EndDate = currentDate;
             }
+        }
+        public void SetClockingSettings(IClockingSettings _clockingSettings)
+        {
+            this.PaidBreakTime = ExtractPaidBreakTimeFromClockingSettings(_clockingSettings);
+        }
+
+        private static double ExtractPaidBreakTimeFromClockingSettings(IClockingSettings _clockingSettings)
+        {
+            return Convert.ToDouble(_clockingSettings.PaidBreakTime);
         }
     }
 }

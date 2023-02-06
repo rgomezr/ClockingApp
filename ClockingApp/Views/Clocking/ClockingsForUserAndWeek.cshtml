@@ -35,7 +35,7 @@
             <div>
                 <span class="groupLabel">Working Hours:</span>
                 <span class="groupData hasSecondSmallPrint">
-                    @Model.WorkingHours_formatted
+                    @Model.PaidWorkingHours_formatted
                 </span>
             </div>
             <div>
@@ -66,7 +66,7 @@
                             <td>@clocking.ClockingDate.ToString("D")</td>
                             <td>@clocking.WorkDay.StartDate.ToString("t")</td>
                             <td>@(clocking.WorkDay.IsWorkFinished ? ((DateTime)clocking.WorkDay.EndDate).ToString("t") : "")</td>
-                            <td>@clocking.WorkDay.Duration_formatted</td>
+                            <td class="hasSecondSmallPrint">@clocking.WorkingHoursPaid_formatted</td>
                             <td>@String.Format("{0} Breaks ({1})", clocking.NumberOfBreaks, clocking.BreakDuration_formatted)</td>
                             <td>
                                 @if (clocking.Breaks != null)
