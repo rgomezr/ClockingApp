@@ -42,9 +42,20 @@ body {
 
 .containerGroup {
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
+
+    .containerGroup.spaceBetween {
+        justify-content: space-between;
+    }
+
+    .containerGroup.initial {
+        justify-content: initial;
+    }
+
+        .containerGroup.initial :not(:first-child) {
+            margin-left: 10px;
+        }
 
 .groupLabel {
     font-weight: bold;

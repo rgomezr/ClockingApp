@@ -4,8 +4,8 @@
     <form method="get" action="GetAllClockingsForUserAndWeek">
         <div class="form-group">
             <label for="weekDate">Select Week</label>
-            <div class="containerGroup">
-                <div class="containerGroup">
+            <div class="containerGroup spaceBetween">
+                <div class="containerGroup spaceBetween">
                     <input class="form-control" type="date" id="weekDate" name="weekDate" />
                     <button type="submit" class="btn btn-sm btn-primary">Show</button>
                 </div>
@@ -22,12 +22,12 @@
     @if (Model != null)
     {
         <div class="rectangle">
-            <div class="containerGroup">
+            <div class="containerGroup spaceBetween">
                 <span class="header color-white">Clocking Invoice</span>
                 <span class="text color-white hasSmallPrint">@Model.ClockingWeek_formatted</span>
             </div>
         </div>
-        <div class="containerGroup">
+        <div class="containerGroup spaceBetween">
             <div>
                 <span class="groupLabel">User:</span>
                 <span class="groupData">
