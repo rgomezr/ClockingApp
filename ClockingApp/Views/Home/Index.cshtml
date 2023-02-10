@@ -15,80 +15,79 @@
         <h5>For Today, <small class="text-muted">@currentDate.ToString("D")</small></h5>
     </div>
     <div class="card">
-        <div class="card-header">
+        <div class="card-body">
             <div class="containerGroup initial">
                 <div>
-
                     @*TODO: Improve below adding condition checks for toggling visibility in Work and Break objects*@
                     @if (clocking == null)
                     {
-                        <button class="btn btn-sm btn-outline-primary" onclick="StartWork()">Start Work</button>
+                        <button class="btn btn-outline-primary rounded-pill" onclick="StartWork()">Start Work</button>
                     }
                     else if (clocking.WorkDay != null && clocking.WorkDay.IsWorkActive)
                     {
-                        <button class="btn btn-sm btn-primary" onclick="FinishWork('@clocking._id')">Finish Work</button>
+                        <button class="btn btn-primary rounded-pill" onclick="FinishWork('@clocking._id')">Finish Work</button>
                     }
                 </div>
                 <div>
                     @if (clocking != null && clocking.WorkDay != null && clocking.WorkDay.IsWorkActive && !clocking.IsCurrentBreakActive())
                     {
-                        <button class="btn btn-sm btn-outline-secondary" onclick="StartBreak('@clocking._id')">Start Break</button>
+                        <button class="btn btn-outline-secondary rounded-pill" onclick="StartBreak('@clocking._id')">Start Break</button>
                     }
                     else if (clocking != null && clocking.IsCurrentBreakActive())
                     {
-                        <button class="btn btn-sm btn-secondary" onclick="FinishBreak('@clocking._id')">Finish Break</button>
+                        <button class="btn btn-secondary rounded-pill" onclick="FinishBreak('@clocking._id')">Finish Break</button>
                     }
                 </div>
             </div>
-        </div>
-        <div class="card-body">
             @if (clocking != null)
             {
-                <ul>
-                    <li>
-                        <b>Work Day</b>
-                        <ul>
-                            <li>
-                                Start: @(clocking.WorkDay != null ? clocking.WorkDay.StartDate : null)
-                            </li>
-                            <li>
-                                End: @(clocking.WorkDay != null && clocking.WorkDay.IsWorkFinished ? clocking.WorkDay.EndDate: null)
-                            </li>
-                            <li>
-                                Duration (h): @(clocking.WorkDay != null ? clocking.WorkDay.Duration_formatted : null)
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <b>Breaks</b>
-                        @if (clocking.Breaks != null && clocking.Breaks.Any())
-                        {
-                            <table class="table table-sm table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Start</th>
-                                        <th>End</th>
-                                        <th>Duration (h)</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (ClockingApp.Models.ClockingData.BreakDay _break in clocking.Breaks)
-                                    {
-                                        <tr>
-                                            <td>@_break.StartDate</td>
-                                            <td>@_break.EndDate</td>
-                                            <td>@_break.Duration_formatted</td>
-                                        </tr>
-                                    }
-                                </tbody>
-                            </table>
-                        }
-                        else
-                        {
-                            <small class="muted">No breaks entered yet...</small>
-                        }
-                    </li>
-                </ul>
+
+                @if (clocking.WorkDay != null)
+                {
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th>Duration</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>@(clocking.WorkDay.StartDate.ToString("t"))</td>
+                                <td>@(clocking.WorkDay.IsWorkFinished ? clocking.WorkDay.EndDate.Value.ToString("t") : null)</td>
+                                <td>@(clocking.WorkDay.Duration_formatted)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+                @if (clocking.Breaks != null && clocking.Breaks.Any())
+                {
+                    <h5><span class="badge badge-light">WORK</span></h5>
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <th>Start</th>
+                                <th>End</th>
+                                <th>Duration (h)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (ClockingApp.Models.ClockingData.BreakDay _break in clocking.Breaks)
+                            {
+                                <tr>
+                                    <td>@_break.StartDate</td>
+                                    <td>@_break.EndDate</td>
+                                    <td>@_break.Duration_formatted</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <small class="muted">No breaks entered yet...</small>
+                }
 
             }
             else
