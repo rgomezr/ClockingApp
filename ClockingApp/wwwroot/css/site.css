@@ -17,12 +17,47 @@ body {
     margin-bottom: 60px;
 }
 
+.fullWidth {
+    width: 100%;
+}
+
 .color-white {
     color: white;
 }
 
+.bg-steelblue {
+    background-color: steelblue;
+}
+
+.btn-steelblue {
+    color: #fff;
+    background-color: steelblue;
+    border-color: steelblue;
+}
+
+    .btn-steelblue:hover {
+        color: #fff;
+        background-color: #4f7492;
+        border-color: #4f7492;
+    }
+
+.btn-outline-steelblue {
+    color: steelblue;
+    border-color: steelblue;
+}
+
+    .btn-outline-steelblue:hover {
+        color: #fff;
+        background-color: steelblue;
+        border-color: steelblue;
+    }
+
 .smallMarginTop {
     margin: 10px 0 0 0;
+}
+
+.smallMarginBottom {
+    margin: 0 0 10px;
 }
 
 .rectangle {
