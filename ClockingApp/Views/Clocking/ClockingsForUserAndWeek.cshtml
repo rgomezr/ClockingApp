@@ -58,8 +58,8 @@
                 {
                     <tr>
                         <td>@clocking.ClockingDate.ToString("D")</td>
-                        <td>@clocking.WorkDay.StartDate.ToString("t")</td>
-                        <td>@clocking.WorkDay.EndDate?.ToString("t")</td>
+                        <td>@clocking.WorkDay.StartDate_formatted</td>
+                        <td>@clocking.WorkDay.EndDate_formatted</td>
                         <td class="hasSecondSmallPrint">@clocking.WorkingHoursPaid_formatted</td>
                         <td>@String.Format("{0} Breaks ({1})", clocking.NumberOfBreaks, clocking.BreakDuration_formatted)</td>
                         <td>
@@ -68,7 +68,7 @@
                                 <ul>
                                     @foreach (var _break in clocking.Breaks)
                                     {
-                                        <li>@String.Format("{0} → {1} ({2})", _break.StartDate.ToString("t"), _break.EndDate?.ToString("t"), _break.Duration_formatted)</li>
+                                        <li>@String.Format("{0} → {1} ({2})", _break.StartDate_formatted, _break.EndDate_formatted, _break.Duration_formatted)</li>
                                     }
                                 </ul>
                             }

@@ -9,6 +9,16 @@ namespace ClockingApp.Models.ClockingData
         public DateTime StartDate { get; set; }
         [BsonDateTimeOptions(Kind = DateTimeKind.Local)]
         public DateTime? EndDate { get; set; } = null!;
+        [BsonIgnore]
+        private TimeZoneInfo? TimeZoneSpecific { get; set; } = null!;
+        public string StartDate_formatted => this.TimeZoneSpecific != null
+            ? TimeZoneInfo.ConvertTimeFromUtc(this.StartDate.ToUniversalTime(), this.TimeZoneSpecific).ToString("t")
+            : this.StartDate.ToString("t");
+        public string EndDate_formatted => this.EndDate != null
+            ? (this.TimeZoneSpecific != null
+                ? TimeZoneInfo.ConvertTimeFromUtc(this.EndDate.Value.ToUniversalTime(), this.TimeZoneSpecific).ToString("t")
+                : this.EndDate.Value.ToString("t"))
+            : "";
         public bool IsBreakActive => EndDate == null;
         public bool IsBreakFinished => EndDate != null;
         public double Duration => IsBreakActive ? (DateTime.Now - StartDate).TotalMinutes : IsBreakFinished
@@ -19,6 +29,11 @@ namespace ClockingApp.Models.ClockingData
         {
             StartDate = startDate;
             EndDate = endDate;
+        }
+
+        public void SetSpecificTimeZone(TimeZoneInfo specificTimeZone)
+        {
+            this.TimeZoneSpecific = specificTimeZone;
         }
     }
 }

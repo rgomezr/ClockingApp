@@ -127,13 +127,15 @@ namespace ClockingApp.Controllers
             return View("ClockingsForUserAndWeek", weeklyClockingInfo);
         }
 
-        public async Task<ActionResult> GetClockingInvoiceForWeek(int weekNumber)
+        public async Task<ActionResult> GetClockingInvoiceForWeek(int weekNumber, string gmtTimeZoneId = "GMT Standard Time")
         {
+            TimeZoneInfo specifiedTimeZone = TimeZoneInfo.FindSystemTimeZoneById(gmtTimeZoneId);
             IList<Clocking> weekClockings = (await _clockingService._clockingRepo.FindAllAsync(clocking => clocking.Username.Equals(_userSettings.Username) &&
                                                 clocking.ClockingWeek.Equals(weekNumber))).ToList();
             foreach (Clocking clocking in weekClockings)
             {
                 clocking.SetClockingSettings(_clockingSettings);
+                clocking.SetTimeZoneForClockingWorkAndBreaks(specifiedTimeZone);
             }
             WeeklyClockingInfo weeklyClockingInfo = new WeeklyClockingInfo(weekClockings);
             return View("ClockingsInvoicePDF", weeklyClockingInfo);
