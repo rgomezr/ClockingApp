@@ -17,12 +17,47 @@ body {
     margin-bottom: 60px;
 }
 
+.fullWidth {
+    width: 100%;
+}
+
 .color-white {
     color: white;
 }
 
+.bg-steelblue {
+    background-color: steelblue;
+}
+
+.btn-steelblue {
+    color: #fff;
+    background-color: steelblue;
+    border-color: steelblue;
+}
+
+    .btn-steelblue:hover {
+        color: #fff;
+        background-color: #4f7492;
+        border-color: #4f7492;
+    }
+
+.btn-outline-steelblue {
+    color: steelblue;
+    border-color: steelblue;
+}
+
+    .btn-outline-steelblue:hover {
+        color: #fff;
+        background-color: steelblue;
+        border-color: steelblue;
+    }
+
 .smallMarginTop {
     margin: 10px 0 0 0;
+}
+
+.smallMarginBottom {
+    margin: 0 0 10px;
 }
 
 .rectangle {
@@ -42,9 +77,20 @@ body {
 
 .containerGroup {
     display: flex;
-    justify-content: space-between;
     align-items: center;
 }
+
+    .containerGroup.spaceBetween {
+        justify-content: space-between;
+    }
+
+    .containerGroup.initial {
+        justify-content: initial;
+    }
+
+        .containerGroup.initial :not(:first-child) {
+            margin-left: 10px;
+        }
 
 .groupLabel {
     font-weight: bold;
@@ -60,6 +106,12 @@ body {
 table th {
     text-align: left;
 }
+/*    table th:hover {
+        border: 0.5px solid;
+        border-radius: 15px;
+        border-color: rgba(0,0,0,0.04);
+        background-color: rgba(0,0,0,0.04);
+    }*/
 
 .hasSmallPrint {
 }

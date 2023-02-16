@@ -3,31 +3,32 @@
 
     <form method="get" action="GetAllClockingsForUserAndWeek">
         <div class="form-group">
-            <label for="weekDate">Select Week</label>
-            <div class="containerGroup">
-                <div class="containerGroup">
+            <div class="containerGroup spaceBetween">
+                <div class="containerGroup initial">
+                    <label class="fullWidth" for="weekDate">Select Date</label>
                     <input class="form-control" type="date" id="weekDate" name="weekDate" />
-                    <button type="submit" class="btn btn-sm btn-primary">Show</button>
+                    <button type="submit" class="btn btn-steelblue">Show</button>
                 </div>
-                @if (Model != null)
+                @if (Model.HasClockings)
                 {
-                    <button type="button" class="btn btn-sm btn-light" onclick="window.open('@(Url.Action("GetClockingInvoiceForWeek","Clocking", new { weekNumber = Model.ClockingWeek}))', '_blank')">↓ Download</button>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-light" id="dropdownTimeZoneSelector" data-bs-toggle="dropdown" aria-expanded="false">Download ↓</button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownTimeZoneSelector">
+                            <li><a class="dropdown-item" href="@(Url.Action("GetClockingInvoiceForWeek","Clocking", new { weekNumber = Model.ClockingWeek, gmtTimeZoneId = "GMT Standard Time"}))" target="_blank">GMT Standard Time (GMT+0)</a></li>
+                            <li><a class="dropdown-item" href="@(Url.Action("GetClockingInvoiceForWeek","Clocking", new { weekNumber = Model.ClockingWeek, gmtTimeZoneId = "W. Europe Standard Time"}))" target="_blank">Europe Standard Time (GMT+1)</a></li>
+                        </ul>
+                    </div>
                 }
             </div>
+
             <small class="text-muted form-text">Week no. will be extracted from your date</small>
         </div>
     </form>
 
     //TODO: All this below should be a Component view
-    @if (Model != null)
+    @if (Model.HasClockings)
     {
-        <div class="rectangle">
-            <div class="containerGroup">
-                <span class="header color-white">Clocking Invoice</span>
-                <span class="text color-white hasSmallPrint">@Model.ClockingWeek_formatted</span>
-            </div>
-        </div>
-        <div class="containerGroup">
+        <div class="containerGroup spaceBetween">
             <div>
                 <span class="groupLabel">User:</span>
                 <span class="groupData">
@@ -47,46 +48,42 @@
                 </span>
             </div>
         </div>
-        @if (Model.WeeklyClockings != null)
-        {
-            <p class="groupLabel smallMarginTop">Breakdown</p>
-            <table class="table table-borderless">
-                <thead>
+        <p class="groupLabel smallMarginTop">Breakdown</p>
+        <table class="table table-borderless">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Work Start</th>
+                    <th>Work End</th>
+                    <th>Work Duration</th>
+                    <th>Breaks</th>
+                    <th>Breaks Breakdown</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (ClockingApp.Models.ClockingData.Clocking clocking in Model.WeeklyClockings)
+                {
                     <tr>
-                        <th>Date</th>
-                        <th>Work Start</th>
-                        <th>Work End</th>
-                        <th>Work Duration</th>
-                        <th>Breaks</th>
-                        <th>Breaks Breakdown</th>
+                        <td>@clocking.ClockingDate.ToString("D")</td>
+                        <td>@clocking.WorkDay.StartDate_formatted</td>
+                        <td>@clocking.WorkDay.EndDate_formatted</td>
+                        <td class="hasSecondSmallPrint">@clocking.WorkingHoursPaid_formatted</td>
+                        <td>@String.Format("{0} Breaks ({1})", clocking.NumberOfBreaks, clocking.BreakDuration_formatted)</td>
+                        <td>
+                            @if (clocking.Breaks != null)
+                            {
+                                <ul>
+                                    @foreach (var _break in clocking.Breaks)
+                                    {
+                                        <li>@String.Format("{0} → {1} ({2})", _break.StartDate_formatted, _break.EndDate_formatted, _break.Duration_formatted)</li>
+                                    }
+                                </ul>
+                            }
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (ClockingApp.Models.ClockingData.Clocking clocking in Model.WeeklyClockings)
-                    {
-                        <tr>
-                            <td>@clocking.ClockingDate.ToString("D")</td>
-                            <td>@clocking.WorkDay.StartDate.ToString("t")</td>
-                            <td>@(clocking.WorkDay.IsWorkFinished ? ((DateTime)clocking.WorkDay.EndDate).ToString("t") : "")</td>
-                            <td class="hasSecondSmallPrint">@clocking.WorkingHoursPaid_formatted</td>
-                            <td>@String.Format("{0} Breaks ({1})", clocking.NumberOfBreaks, clocking.BreakDuration_formatted)</td>
-                            <td>
-                                @if (clocking.Breaks != null)
-                                {
-                                    <ul>
-                                        @foreach (var _break in clocking.Breaks)
-                                        {
-                                            <li>@String.Format("{0} → {1} ({2})", ((DateTime)_break.StartDate).ToString("t"), ((DateTime)_break.EndDate).ToString("t"), _break.Duration_formatted)</li>
-                                        }
-                                    </ul>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        }
-        <p class="additionalInfo">Any anomalies or questions about clocking data stated within this document, please contact ramon@ramongomez.xyz</p>
+                }
+            </tbody>
+        </table>
         <p class="smallPrint">Week number is not to be confused with Payslip period. Week number shown refers to Clocking week stated above</p>
         <p class="secondSmallPrint">Working hours only include paid 15 minutes break. All additional breaks are not included in this figure.</p>
     }

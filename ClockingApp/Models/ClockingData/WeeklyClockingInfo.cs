@@ -6,7 +6,7 @@ namespace ClockingApp.Models.ClockingData
 	public class WeeklyClockingInfo
 	{
         public IList<Clocking>? WeeklyClockings { get; set; }
-        private bool HasClockings => (WeeklyClockings != null && WeeklyClockings.Any());
+        public bool HasClockings => (WeeklyClockings != null && WeeklyClockings.Any());
 		public int ClockingWeek => HasClockings
             ? WeeklyClockings.First().ClockingWeek : 0;
 		public string ClockingWeek_formatted => HasClockings ? String.Format("WEEK NO. {0}", this.ClockingWeek) : "";

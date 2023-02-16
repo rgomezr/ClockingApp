@@ -71,6 +71,12 @@ namespace ClockingApp.Models.ClockingData
         {
             return Convert.ToDouble(_clockingSettings.PaidBreakTime);
         }
+
+        public void SetTimeZoneForClockingWorkAndBreaks (TimeZoneInfo specificTimeZone)
+        {
+            this.WorkDay.SetSpecificTimeZone(specificTimeZone);
+            this.Breaks?.ForEach(_break => _break.SetSpecificTimeZone(specificTimeZone));
+        }
     }
 }
 

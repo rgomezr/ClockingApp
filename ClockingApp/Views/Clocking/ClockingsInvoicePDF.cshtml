@@ -6,12 +6,12 @@
 {
     <div class="smallMarginTop">
         <div class="rectangle">
-            <div class="containerGroup">
+            <div class="containerGroup spaceBetween">
                 <span class="header color-white">Clocking Invoice</span>
                 <span class="text color-white hasSmallPrint">@Model.ClockingWeek_formatted</span>
             </div>
         </div>
-        <div class="containerGroup">
+        <div class="containerGroup spaceBetween">
             <div>
                 <span class="groupLabel">User:</span>
                 <span class="groupData">
@@ -50,8 +50,8 @@
                     {
                         <tr>
                             <td>@clocking.ClockingDate.ToString("D")</td>
-                            <td>@clocking.WorkDay.StartDate.ToString("t")</td>
-                            <td>@(clocking.WorkDay.IsWorkFinished ? ((DateTime)clocking.WorkDay.EndDate).ToString("t") : "")</td>
+                            <td>@clocking.WorkDay.StartDate_formatted</td>
+                            <td>@clocking.WorkDay.EndDate_formatted</td>
                             <td class="hasSecondSmallPrint">@clocking.WorkingHoursPaid_formatted</td>
                             <td>@String.Format("{0} Breaks ({1})", clocking.NumberOfBreaks, clocking.BreakDuration_formatted)</td>
                             <td>
@@ -60,7 +60,9 @@
                                     <ul>
                                         @foreach (var _break in clocking.Breaks)
                                         {
-                                            <li>@String.Format("{0} → {1} ({2})", ((DateTime)_break.StartDate).ToString("t"), ((DateTime)_break.EndDate).ToString("t"), _break.Duration_formatted)</li>
+                                            <li>@String.Format("{0} → {1} ({2})", _break.StartDate_formatted
+                                               , _break.EndDate_formatted
+                                               , _break.Duration_formatted)</li>
                                         }
                                     </ul>
                                 }
