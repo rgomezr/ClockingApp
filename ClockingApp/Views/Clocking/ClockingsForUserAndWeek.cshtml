@@ -11,9 +11,16 @@
                 </div>
                 @if (Model.HasClockings)
                 {
-                    <button type="button" class="btn btn-light" onclick="window.open('@(Url.Action("GetClockingInvoiceForWeek","Clocking", new { weekNumber = Model.ClockingWeek}))', '_blank')">↓ Download</button>
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-light" id="dropdownTimeZoneSelector" data-bs-toggle="dropdown" aria-expanded="false">Download ↓</button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownTimeZoneSelector">
+                            <li><a class="dropdown-item" href="@(Url.Action("GetClockingInvoiceForWeek","Clocking", new { weekNumber = Model.ClockingWeek, gmtTimeZoneId = "GMT Standard Time"}))" target="_blank">GMT Standard Time (GMT+0)</a></li>
+                            <li><a class="dropdown-item" href="@(Url.Action("GetClockingInvoiceForWeek","Clocking", new { weekNumber = Model.ClockingWeek, gmtTimeZoneId = "W. Europe Standard Time"}))" target="_blank">Europe Standard Time (GMT+1)</a></li>
+                        </ul>
+                    </div>
                 }
             </div>
+
             <small class="text-muted form-text">Week no. will be extracted from your date</small>
         </div>
     </form>
