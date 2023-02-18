@@ -22,6 +22,8 @@
     <None Remove="Views\Clocking\" />
     <None Remove="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" />
     <None Remove="Select.HtmlToPdf.NetCore" />
+    <None Remove="Views\Shared\Components\" />
+    <None Remove="ViewComponents\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repository\" />
@@ -31,5 +33,7 @@
     <Folder Include="CustomServices\" />
     <Folder Include="Settings\" />
     <Folder Include="Views\Clocking\" />
+    <Folder Include="Views\Shared\Components\" />
+    <Folder Include="ViewComponents\" />
   </ItemGroup>
 </Project>

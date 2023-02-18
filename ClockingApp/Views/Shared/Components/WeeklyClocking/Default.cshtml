@@ -1,0 +1,64 @@
+﻿@model ClockingApp.Models.ClockingData.WeeklyClockingInfo
+
+@if (Model.HasClockings)
+{
+    <div class="containerGroup spaceBetween">
+        <div>
+            <span class="groupLabel">User:</span>
+            <span class="groupData">
+                @Model.Username
+            </span>
+        </div>
+        <div>
+            <span class="groupLabel">Working Hours:</span>
+            <span class="groupData hasSecondSmallPrint">
+                @Model.PaidWorkingHours_formatted
+            </span>
+        </div>
+        <div>
+            <span class="groupLabel">Working Days:</span>
+            <span class="groupData">
+                @Model.WorkingDaysCount
+            </span>
+        </div>
+    </div>
+    <p class="groupLabel smallMarginTop">Breakdown</p>
+    <table class="table table-borderless">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Work Start</th>
+                <th>Work End</th>
+                <th>Work Duration</th>
+                <th>Breaks</th>
+                <th>Breaks Breakdown</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (ClockingApp.Models.ClockingData.Clocking clocking in Model.WeeklyClockings)
+            {
+                <tr>
+                    <td>@clocking.ClockingDate.ToString("D")</td>
+                    <td>@clocking.WorkDay.StartDate_formatted</td>
+                    <td>@clocking.WorkDay.EndDate_formatted</td>
+                    <td class="hasSecondSmallPrint">@clocking.WorkingHoursPaid_formatted</td>
+                    <td>@String.Format("{0} Breaks ({1})", clocking.NumberOfBreaks, clocking.BreakDuration_formatted)</td>
+                    <td>
+                        @if (clocking.Breaks != null)
+                        {
+                            <ul>
+                                @foreach (var _break in clocking.Breaks)
+                                {
+                                    <li>@String.Format("{0} → {1} ({2})", _break.StartDate_formatted, _break.EndDate_formatted, _break.Duration_formatted)</li>
+                                }
+                            </ul>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <p class="additionalInfo">Any anomalies or questions about clocking data stated within this document, please contact ramon@ramongomez.xyz</p>
+    <p class="smallPrint">Week number is not to be confused with Payslip period. Week number shown refers to Clocking week stated above</p>
+    <p class="secondSmallPrint">Working hours only include paid 15 minutes break. All additional breaks are not included in this figure.</p>
+}
