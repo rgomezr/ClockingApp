@@ -19,7 +19,7 @@ namespace ClockingApp.Models.ClockingData
         public string BreakDuration_formatted => this.BreakDuration != 0 ? String.Format("{0}{1}", BreakDuration.ToString("##"), "m") : "";
         private IClockingSettings? ClockingSettings { get; set; }
         private double PaidBreakTime => ClockingSettings != null ? Convert.ToDouble(ClockingSettings.PaidBreakTime) : 0;
-        private double OvertimeThreshold => ClockingSettings != null ? Convert.ToDouble(ClockingSettings.OvertimeThreshold) : 0;
+        private double OvertimeThreshold => ClockingSettings != null ? Convert.ToDouble(ClockingSettings.OvertimeThresholdHours) : 0;
         public double WorkingHoursPaid => WorkDay.Duration - ((BreakDuration - PaidBreakTime) / 60);
         public string WorkingHoursPaid_formatted => String.Format("{0}{1}", this.WorkingHoursPaid.ToString("##.#"), "h");
 
