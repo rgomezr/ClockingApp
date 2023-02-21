@@ -6,6 +6,7 @@ namespace ClockingApp.Settings
         public string PaidBreakTime { get; set; }
         public string OvertimeThresholdHours { get; set; }
         public WeekDayHours[] WeeklyDefaultHours { get; set; }
+        public double GetDayOfWeekHours(string dayOfWeek);
 
     }
 }

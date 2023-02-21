@@ -24,6 +24,9 @@
             <small class="text-muted form-text">Week no. will be extracted from your date</small>
         </div>
     </form>
-    @await Component.InvokeAsync("WeeklyClocking", new { weeklyClockingInfo = Model })
+    @if (Model.HasClockings)
+    {
+        @await Component.InvokeAsync("WeeklyClocking", new { weeklyClockingInfo = Model })
+    }
 }
 

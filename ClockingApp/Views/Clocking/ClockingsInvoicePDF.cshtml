@@ -1,4 +1,5 @@
-﻿@{
+﻿@model ClockingApp.Models.ClockingData.WeeklyClockingInfo
+@{
     Layout = "~/Views/Shared/_LayoutNoHeader.cshtml";
 }
 
@@ -12,5 +13,8 @@
             </div>
         </div>
     </div>
-    @await Component.InvokeAsync("WeeklyClocking", new { weeklyClockingInfo = Model })
+    if (Model.HasClockings)
+    {
+        @await Component.InvokeAsync("WeeklyClocking", new { weeklyClockingInfo = Model })
+    }
 }

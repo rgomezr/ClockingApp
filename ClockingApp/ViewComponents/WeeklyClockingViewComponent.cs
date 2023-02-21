@@ -17,11 +17,31 @@ namespace ClockingApp.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(WeeklyClockingInfo weeklyClockingInfo)
         {
+            weeklyClockingInfo.DefaultWorkedHours = await CalculateExpectedWorkingHours(weeklyClockingInfo);
             return View(weeklyClockingInfo);
         }
 
-        public void CalculateExpectedWorkingHours(WeeklyClockingInfo weeklyClockingInfo)
+        /// <summary>
+        /// Calculates default Working Hours for the clockings that
+        /// have been registered for corresponding week.
+        /// </summary>
+        /// <param name="weeklyClockingInfo"></param>
+        /// <returns>Double representing hours meant to have worked</returns>
+        public async Task<double> CalculateExpectedWorkingHours(WeeklyClockingInfo weeklyClockingInfo)
         {
+            //TODO: Run below as Async Task.Run(...)
+            if (weeklyClockingInfo.WeeklyClockings != null)
+            {
+                double weeklyDefaultHours = 0;
+                foreach (Clocking clocking in weeklyClockingInfo.WeeklyClockings)
+                {
+                    weeklyDefaultHours += _clockingSettings.GetDayOfWeekHours(clocking.ClockingDate.DayOfWeek.ToString());
+                }
+                return weeklyDefaultHours;
+            } else
+            {
+                return 0;
+            }
         }
     }
 }
