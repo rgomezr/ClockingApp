@@ -17,8 +17,19 @@ namespace ClockingApp.ViewComponents
 
         public async Task<IViewComponentResult> InvokeAsync(WeeklyClockingInfo weeklyClockingInfo)
         {
-            weeklyClockingInfo.DefaultWorkedHours = await CalculateExpectedWorkingHours(weeklyClockingInfo);
+            weeklyClockingInfo.OvertimeHours = await CalculateOvertime(weeklyClockingInfo);
             return View(weeklyClockingInfo);
+        }
+
+        public async Task<double> CalculateOvertime (WeeklyClockingInfo weeklyClockingInfo)
+        {
+            double defaultWorkedHours = await CalculateExpectedWorkingHours(weeklyClockingInfo);
+            double overtimeThreshold = Convert.ToDouble(_clockingSettings.OvertimeThresholdHours);
+            double workedHours = weeklyClockingInfo.PaidWorkingHours;
+
+            double hoursDifference = workedHours - defaultWorkedHours;
+
+            return (hoursDifference >= overtimeThreshold) ? hoursDifference : 0;
         }
 
         /// <summary>

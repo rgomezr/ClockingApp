@@ -67,14 +67,7 @@ namespace ClockingApp.Models.ClockingData
         public void SetClockingSettings(IClockingSettings _clockingSettings)
         {
             this.ClockingSettings = _clockingSettings;
-            //this.PaidBreakTime = ExtractPaidBreakTimeFromClockingSettings(_clockingSettings);
         }
-
-        //private static double ExtractPaidBreakTimeFromClockingSettings(IClockingSettings _clockingSettings)
-        //{
-        //    return Convert.ToDouble(_clockingSettings.PaidBreakTime);
-        //}
-
         public void SetTimeZoneForClockingWorkAndBreaks (TimeZoneInfo specificTimeZone)
         {
             this.WorkDay.SetSpecificTimeZone(specificTimeZone);
