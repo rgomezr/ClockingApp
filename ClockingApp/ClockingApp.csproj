@@ -24,6 +24,7 @@
     <None Remove="Select.HtmlToPdf.NetCore" />
     <None Remove="Views\Shared\Components\" />
     <None Remove="ViewComponents\" />
+    <None Remove="Models\CustomSettings\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repository\" />
@@ -35,5 +36,6 @@
     <Folder Include="Views\Clocking\" />
     <Folder Include="Views\Shared\Components\" />
     <Folder Include="ViewComponents\" />
+    <Folder Include="Models\CustomSettings\" />
   </ItemGroup>
 </Project>

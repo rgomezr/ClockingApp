@@ -6,6 +6,9 @@ namespace ClockingApp.Models.ClockingData
 	public class WeeklyClockingInfo
 	{
         public IList<Clocking>? WeeklyClockings { get; set; }
+		public double OvertimeHours { get; set; }
+		public bool HasOvertime => (OvertimeHours > 0);
+        public string OvertimeHours_formatted => String.Format("{0}{1}", this.OvertimeHours.ToString("##.##"), "h");
         public bool HasClockings => (WeeklyClockings != null && WeeklyClockings.Any());
 		public int ClockingWeek => HasClockings
             ? WeeklyClockings.First().ClockingWeek : 0;
@@ -16,7 +19,6 @@ namespace ClockingApp.Models.ClockingData
 		public string WorkingHours_formatted => String.Format("{0}{1}", this.WorkingHours.ToString("##.#"), "h");
 		public double PaidWorkingHours => HasClockings ? WeeklyClockings.Sum(clocking => clocking.WorkingHoursPaid) : 0.0;
 		public string PaidWorkingHours_formatted => String.Format("{0}{1}", this.PaidWorkingHours.ToString("##.#"), "h");
-
 
         /// <summary>
         /// Public Parametrised constructor

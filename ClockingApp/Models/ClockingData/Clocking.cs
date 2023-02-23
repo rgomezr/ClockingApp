@@ -17,7 +17,8 @@ namespace ClockingApp.Models.ClockingData
         public short NumberOfBreaks => (Breaks != null) ? (short)Breaks.Count : (short)0;
         public double BreakDuration => (Breaks != null) ? Breaks.Sum(_break => _break.Duration) : 0;
         public string BreakDuration_formatted => this.BreakDuration != 0 ? String.Format("{0}{1}", BreakDuration.ToString("##"), "m") : "";
-        private double PaidBreakTime { get; set; }
+        private IClockingSettings? ClockingSettings { get; set; }
+        private double PaidBreakTime => ClockingSettings != null ? Convert.ToDouble(ClockingSettings.PaidBreakTime) : 0;
         public double WorkingHoursPaid => WorkDay.Duration - ((BreakDuration - PaidBreakTime) / 60);
         public string WorkingHoursPaid_formatted => String.Format("{0}{1}", this.WorkingHoursPaid.ToString("##.#"), "h");
 
@@ -64,14 +65,8 @@ namespace ClockingApp.Models.ClockingData
         }
         public void SetClockingSettings(IClockingSettings _clockingSettings)
         {
-            this.PaidBreakTime = ExtractPaidBreakTimeFromClockingSettings(_clockingSettings);
+            this.ClockingSettings = _clockingSettings;
         }
-
-        private static double ExtractPaidBreakTimeFromClockingSettings(IClockingSettings _clockingSettings)
-        {
-            return Convert.ToDouble(_clockingSettings.PaidBreakTime);
-        }
-
         public void SetTimeZoneForClockingWorkAndBreaks (TimeZoneInfo specificTimeZone)
         {
             this.WorkDay.SetSpecificTimeZone(specificTimeZone);

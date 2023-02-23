@@ -15,6 +15,15 @@
                 @Model.PaidWorkingHours_formatted
             </span>
         </div>
+        @if (Model.HasOvertime)
+        {
+            <div>
+                <span class="groupLabel">Overtime Hours:</span>
+                <span class="groupData">
+                    @Model.OvertimeHours_formatted
+                </span>
+            </div>
+        }
         <div>
             <span class="groupLabel">Working Days:</span>
             <span class="groupData">
