@@ -5,6 +5,8 @@ VisualStudioVersion = 25.0.1700.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClockingApp", "ClockingApp\ClockingApp.csproj", "{FEEE0DCA-3597-4FC8-BEA3-2F4562F2223C}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{C1A9783D-7F3B-4C0F-A204-1EA50E5EBDD1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{FEEE0DCA-3597-4FC8-BEA3-2F4562F2223C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEEE0DCA-3597-4FC8-BEA3-2F4562F2223C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEEE0DCA-3597-4FC8-BEA3-2F4562F2223C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C1A9783D-7F3B-4C0F-A204-1EA50E5EBDD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C1A9783D-7F3B-4C0F-A204-1EA50E5EBDD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C1A9783D-7F3B-4C0F-A204-1EA50E5EBDD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C1A9783D-7F3B-4C0F-A204-1EA50E5EBDD1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
