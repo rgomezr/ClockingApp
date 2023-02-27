@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  clockingapp:
+    image: ${DOCKER_REGISTRY-}clockingapp
+    build:
+      context: .
+      dockerfile: ClockingApp/Dockerfile
