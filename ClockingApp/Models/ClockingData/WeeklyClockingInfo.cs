@@ -18,7 +18,7 @@ namespace ClockingApp.Models.ClockingData
 		public int WorkingDaysCount => HasClockings ? WeeklyClockings.Count() : 0;
 		public string WorkingHours_formatted => String.Format("{0}{1}", this.WorkingHours.ToString("##.#"), "h");
 		public double PaidWorkingHours => HasClockings ? WeeklyClockings.Sum(clocking => clocking.WorkingHoursPaid) : 0.0;
-		public string PaidWorkingHours_formatted => String.Format("{0}{1}", this.PaidWorkingHours.ToString("##.#"), "h");
+		public string PaidWorkingHours_formatted => String.Format("{0}{1}", this.PaidWorkingHours.ToString("##.##"), "h");
 
         /// <summary>
         /// Public Parametrised constructor
