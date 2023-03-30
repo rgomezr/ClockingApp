@@ -159,3 +159,7 @@ table th {
     padding: 2px 5px;
     border-color: lightgrey;
 }
+
+.invisible {
+    display: none;
+}

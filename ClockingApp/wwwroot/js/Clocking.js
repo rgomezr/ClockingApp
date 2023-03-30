@@ -47,3 +47,22 @@ function FinishBreak(clockingId) {
         }
     });
 }
+
+//Events TODO: Separate events into another file
+
+function showOptionsForElement(element) {
+    var id = element.currentTarget.id;
+    console.log('entering in ', id);
+}
+
+function hideOptionsForElement(element) {
+    var id = element.currentTarget.id;
+    console.log('leaving from ', id);
+}
+
+
+$('tbody tr').mouseenter(function (event) {
+    showOptionsForElement(event);
+}).mouseleave(function (event) {
+    hideOptionsForElement(event);
+});
