@@ -163,3 +163,11 @@ table th {
 .invisible {
     display: none;
 }
+
+.optionsMenu {
+    display: none;
+}
+
+.clockingTable tbody tr:hover .optionsMenu {
+    display: block;
+}

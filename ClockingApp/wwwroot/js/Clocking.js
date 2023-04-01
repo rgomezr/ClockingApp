@@ -50,19 +50,21 @@ function FinishBreak(clockingId) {
 
 //Events TODO: Separate events into another file
 
-function showOptionsForElement(element) {
-    var id = element.currentTarget.id;
-    console.log('entering in ', id);
-}
+//function showOptionsForElement(event) {
+//    var index = event.currentTarget.id;
+//    var optionsElementForIndex = document.getElementById('optionsFor'+index);
+//    optionsElementForIndex.classList.remove('invisible');
+//}
 
-function hideOptionsForElement(element) {
-    var id = element.currentTarget.id;
-    console.log('leaving from ', id);
-}
+//function hideOptionsForElement(event) {
+//    var index = event.currentTarget.id;
+//    var optionsElementForIndex = document.getElementById('optionsFor'+index);
+//    optionsElementForIndex.classList.add('invisible');
+//}
 
 
-$('tbody tr').mouseenter(function (event) {
-    showOptionsForElement(event);
-}).mouseleave(function (event) {
-    hideOptionsForElement(event);
-});
+//$('.clockingTable tbody tr').mouseenter(function (event) {
+//    showOptionsForElement(event);
+//}).mouseleave(function (event) {
+//    hideOptionsForElement(event);
+//});

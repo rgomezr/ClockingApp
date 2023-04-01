@@ -32,10 +32,11 @@
         </div>
     </div>
     <p class="groupLabel smallMarginTop">Breakdown</p>
-    <table class="table table-borderless">
+    <table class="table table-borderless clockingTable">
         <thead>
             <tr>
-                <th colspan="2">Date</th>
+                <th></th>
+                <th>Date</th>
                 <th>Work Start</th>
                 <th>Work End</th>
                 <th>Work Duration</th>
@@ -46,9 +47,9 @@
         <tbody>
             @foreach (var item in Model.WeeklyClockings.Select((clocking, index) => new { clocking, index }))
                 {
-                <tr id="@item.index">
+                <tr>
                     <td>
-                        <div class="containerGroup initial invisible">
+                        <div class="containerGroup initial optionsMenu">
                             <span class="inlineEditButton">×</span>
                             <span class="inlineEditButton">✎</span>
                         </div>
