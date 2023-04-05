@@ -106,6 +106,7 @@ body {
 table th {
     text-align: left;
 }
+
 /*    table th:hover {
         border: 0.5px solid;
         border-radius: 15px;
@@ -155,19 +156,15 @@ table th {
 }
 
 .inlineEditButton {
-    border: 0.5px solid;
+    font-size: large;
     padding: 2px 5px;
-    border-color: lightgrey;
-}
-
-.invisible {
-    display: none;
+    border-radius: 20px;
 }
 
 .optionsMenu {
-    display: none;
+    visibility: hidden;
 }
 
 .clockingTable tbody tr:hover .optionsMenu {
-    display: block;
+    visibility: visible;
 }

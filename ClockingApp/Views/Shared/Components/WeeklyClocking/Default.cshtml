@@ -35,26 +35,23 @@
     <table class="table table-borderless clockingTable">
         <thead>
             <tr>
-                <th></th>
                 <th>Date</th>
                 <th>Work Start</th>
                 <th>Work End</th>
                 <th>Work Duration</th>
                 <th>Breaks</th>
                 <th>Breaks Breakdown</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.WeeklyClockings.Select((clocking, index) => new { clocking, index }))
-                {
+            {
                 <tr>
+
                     <td>
-                        <div class="containerGroup initial optionsMenu">
-                            <span class="inlineEditButton">×</span>
-                            <span class="inlineEditButton">✎</span>
-                        </div>
+                        @item.clocking.ClockingDate.ToString("D")
                     </td>
-                    <td>@item.clocking.ClockingDate.ToString("D")</td>
                     <td>@item.clocking.WorkDay.StartDate_formatted</td>
                     <td>@item.clocking.WorkDay.EndDate_formatted</td>
                     <td class="hasSecondSmallPrint">@item.clocking.WorkingHoursPaid_formatted</td>
@@ -65,10 +62,21 @@
                             <ul>
                                 @foreach (var _break in item.clocking.Breaks)
                                 {
-                                    <li>@String.Format("{0} → {1} ({2})", _break.StartDate_formatted, _break.EndDate_formatted, _break.Duration_formatted)</li>
+                                    <li>
+                                        @String.Format("{0} → {1} ({2})", _break.StartDate_formatted
+                                   , _break.EndDate_formatted, _break.Duration_formatted)
+                                    </li>
                                 }
                             </ul>
                         }
+                    </td>
+                    <td>
+                        <div class="optionsMenu">
+                            <div class="containerGroup initial">
+                                <button type="button" class="inlineEditButton btn btn-light">×</button>
+                                <button type="button" class="inlineEditButton btn btn-light">✎</button>
+                            </div>
+                        </div>
                     </td>
                 </tr>
             }
