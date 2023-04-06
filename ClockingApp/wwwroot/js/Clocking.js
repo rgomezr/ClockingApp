@@ -48,10 +48,6 @@ function FinishBreak(clockingId) {
     });
 }
 
-function HelloWorld(param) {
-    Swal.fire(param);
-}
-
 function DeleteClocking(clockingId) {
     Swal.fire({
         icon: 'question',
@@ -63,6 +59,7 @@ function DeleteClocking(clockingId) {
     }).then((result) => {
         if (result.isConfirmed) {
             //AJAX to send cancel request to server
+            // TODO: Modularise this method below
             $.ajax({
                 type: "DELETE",
                 url: "Clocking/Clocking",
@@ -75,7 +72,9 @@ function DeleteClocking(clockingId) {
                             , 'Clocking is gone'
                             , 'success');
                     } else {
-
+                        Swal.fire('Error!'
+                            , 'Something went wrong'
+                            , 'error');
                     }
                 } 
             });
@@ -87,24 +86,3 @@ function DeleteClocking(clockingId) {
     });
 
 }
-
-//Events TODO: Separate events into another file
-
-//function showOptionsForElement(event) {
-//    var index = event.currentTarget.id;
-//    var optionsElementForIndex = document.getElementById('optionsFor'+index);
-//    optionsElementForIndex.classList.remove('invisible');
-//}
-
-//function hideOptionsForElement(event) {
-//    var index = event.currentTarget.id;
-//    var optionsElementForIndex = document.getElementById('optionsFor'+index);
-//    optionsElementForIndex.classList.add('invisible');
-//}
-
-
-//$('.clockingTable tbody tr').mouseenter(function (event) {
-//    showOptionsForElement(event);
-//}).mouseleave(function (event) {
-//    hideOptionsForElement(event);
-//});

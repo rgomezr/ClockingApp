@@ -117,8 +117,8 @@ namespace ClockingApp.Controllers
         [HttpDelete]
         public async Task<ActionResult> Clocking([FromBody] string clockingId)
         {
-            await _clockingService._clockingRepo.DeleteByIdAsync(clockingId);
-            return Json(true);
+            bool isDeleted = await _clockingService._clockingRepo.DeleteByIdAsync(clockingId);
+            return Json(isDeleted);
          }
 
 
