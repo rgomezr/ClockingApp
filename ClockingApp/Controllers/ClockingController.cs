@@ -114,6 +114,14 @@ namespace ClockingApp.Controllers
             }
         }
 
+        [HttpDelete]
+        public async Task<ActionResult> Clocking([FromBody] string clockingId)
+        {
+            await _clockingService._clockingRepo.DeleteByIdAsync(clockingId);
+            return Json(true);
+         }
+
+
         public async Task<ActionResult> GetAllClockingsForUserAndWeek(DateTime weekDate)
         {
             int weekNumber = ISOWeek.GetWeekOfYear(weekDate);
@@ -140,6 +148,8 @@ namespace ClockingApp.Controllers
             WeeklyClockingInfo weeklyClockingInfo = new WeeklyClockingInfo(weekClockings);
             return View("ClockingsInvoicePDF", weeklyClockingInfo);
         }
+
+
 
         private async Task<Clocking> RetrieveClockingById(string clockingId)
         {

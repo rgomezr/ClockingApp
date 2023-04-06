@@ -62,11 +62,23 @@ function DeleteClocking(clockingId) {
         confirmButtonText: 'Delete it!'
     }).then((result) => {
         if (result.isConfirmed) {
-            Swal.fire('Deleted!'
-                , 'Clocking is gone'
-                , 'success');
-
             //AJAX to send cancel request to server
+            $.ajax({
+                type: "DELETE",
+                url: "Clocking/Clocking",
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                data: JSON.stringify(clockingId),
+                success: function (response) {
+                    if (response === true) {
+                        Swal.fire('Deleted!'
+                            , 'Clocking is gone'
+                            , 'success');
+                    } else {
+
+                    }
+                } 
+            });
         }
         //else if (result.dismiss === Swal.DismissReason.cancel) {
         //    console.log('cancel');
