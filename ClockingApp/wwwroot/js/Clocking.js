@@ -48,6 +48,34 @@ function FinishBreak(clockingId) {
     });
 }
 
+function HelloWorld(param) {
+    Swal.fire(param);
+}
+
+function DeleteClocking(clockingId) {
+    Swal.fire({
+        icon: 'question',
+        title: 'Removing Clocking',
+        text: `This will remove Clocking ${clockingId}`,
+        showConfirmButton: true,
+        showCancelButton: true,
+        confirmButtonText: 'Delete it!'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            Swal.fire('Deleted!'
+                , 'Clocking is gone'
+                , 'success');
+
+            //AJAX to send cancel request to server
+        }
+        //else if (result.dismiss === Swal.DismissReason.cancel) {
+        //    console.log('cancel');
+        //}
+
+    });
+
+}
+
 //Events TODO: Separate events into another file
 
 //function showOptionsForElement(event) {
