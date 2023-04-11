@@ -48,7 +48,19 @@ function FinishBreak(clockingId) {
     });
 }
 
-function DeleteClocking(clockingId) {
+function DeleteTableRowByTableIndex(tableId, tableRowIndex) {
+    
+    /* tableRowIndex starts in zero within tbody and table.deleteRow()
+     * considers 0 as the table head - Therefore, we increment index always in 1
+     */
+    var dataTableRowIndex = tableRowIndex + 1;
+    var table = document.getElementById(tableId);
+    if (table) {
+        table.deleteRow(dataTableRowIndex);
+    }
+}
+
+function DeleteClocking(clockingId, tableId, tableRowIndexToDelete) {
     Swal.fire({
         icon: 'question',
         title: 'Removing Clocking',
@@ -68,6 +80,7 @@ function DeleteClocking(clockingId) {
                 data: JSON.stringify(clockingId),
                 success: function (response) {
                     if (response === true) {
+                        DeleteTableRowByTableIndex(tableId, tableRowIndexToDelete);
                         Swal.fire('Deleted!'
                             , 'Clocking is gone'
                             , 'success');
@@ -76,13 +89,9 @@ function DeleteClocking(clockingId) {
                             , 'Something went wrong'
                             , 'error');
                     }
-                } 
+                }
             });
         }
-        //else if (result.dismiss === Swal.DismissReason.cancel) {
-        //    console.log('cancel');
-        //}
-
     });
 
 }
