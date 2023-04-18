@@ -119,7 +119,7 @@ namespace ClockingApp.Controllers
         {
             bool isDeleted = await _clockingService._clockingRepo.DeleteByIdAsync(clockingId);
             return Json(isDeleted);
-         }
+        }
 
 
         public async Task<ActionResult> GetAllClockingsForUserAndWeek(DateTime weekDate)
@@ -149,7 +149,10 @@ namespace ClockingApp.Controllers
             return View("ClockingsInvoicePDF", weeklyClockingInfo);
         }
 
-
+        public async Task<ActionResult> EditClocking()
+        {
+            return View("EditClocking");
+        }
 
         private async Task<Clocking> RetrieveClockingById(string clockingId)
         {
