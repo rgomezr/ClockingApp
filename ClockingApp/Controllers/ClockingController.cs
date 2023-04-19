@@ -149,9 +149,9 @@ namespace ClockingApp.Controllers
             return View("ClockingsInvoicePDF", weeklyClockingInfo);
         }
 
-        public async Task<ActionResult> EditClocking()
+        public async Task<ActionResult> EditClocking(string clockingId)
         {
-            return View("EditClocking");
+            return View("EditClocking", model:clockingId);
         }
 
         private async Task<Clocking> RetrieveClockingById(string clockingId)

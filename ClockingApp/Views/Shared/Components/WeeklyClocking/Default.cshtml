@@ -74,7 +74,7 @@
                         <div class="optionsMenu">
                             <div class="containerGroup initial">
                                 <button type="button" class="inlineEditButton btn btn-light" onclick="DeleteClocking('@(item.clocking._id)', 'clockingTable', '@(item.index)')">×</button>
-                                <button type="button" class="inlineEditButton btn btn-light">✎</button>
+                                <button type="button" class="inlineEditButton btn btn-light" onclick="window.open('@(Url.Action("EditClocking", "Clocking", new { clocking = item.clocking._id }))', '_blank')">✎</button>
                             </div>
                         </div>
                     </td>
