@@ -1,0 +1,25 @@
+name: Auto-Assign Pull Request Creator
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  assign_creator:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v2
+
+      - name: Set assignee to creator
+        run: |
+          # Get the pull request number
+          PR_NUMBER=$(jq --raw-output .number "$GITHUB_EVENT_PATH")
+          
+          # Get the creator's login (username)
+          CREATOR_LOGIN=$(jq --raw-output .pull_request.user.login "$GITHUB_EVENT_PATH")
+
+          # Set the assignee to the creator
+          echo "Setting assignee to $CREATOR_LOGIN for pull request #$PR_NUMBER"
+          GITHUB_TOKEN="${{ secrets.GITHUB_TOKEN }}"
+          API_URL="https://api.github.com/repos/${{ github.repository }}/issues/$PR_NUMBER"
+          curl -X POST -H "Authorization: token $GITHUB_TOKEN" -H "Content-Type: application/json" -d "{\"assignees\":[\"$CREATOR_LOGIN\"]}" "$API_URL"
