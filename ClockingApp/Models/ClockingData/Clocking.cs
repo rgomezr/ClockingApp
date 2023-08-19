@@ -10,6 +10,7 @@ namespace ClockingApp.Models.ClockingData
     {
         public string Username { get; set; }
         public int ClockingWeek { get; set; }
+        public int ClockingYear { get; set; }
         [BsonDateTimeOptions(DateOnly = true, Kind = DateTimeKind.Local)]
         public DateTime ClockingDate { get; set; }
         public WorkDay WorkDay { get; set; } = null!;
@@ -22,10 +23,19 @@ namespace ClockingApp.Models.ClockingData
         public double WorkingHoursPaid => WorkDay.Duration - ((BreakDuration - PaidBreakTime) / 60);
         public string WorkingHoursPaid_formatted => String.Format("{0}{1}", this.WorkingHoursPaid.ToString("##.#"), "h");
 
-
-        public Clocking(string username, int clockingWeek, DateTime clockingDate, WorkDay workDay, List<BreakDay>? breaks)
+        /// <summary>
+        /// Parametrised Constructor
+        /// </summary>
+        /// <param name="username"></param>
+        /// <param name="clockingYear"></param>
+        /// <param name="clockingWeek"></param>
+        /// <param name="clockingDate"></param>
+        /// <param name="workDay"></param>
+        /// <param name="breaks"></param>
+        public Clocking(string username, int clockingYear, int clockingWeek, DateTime clockingDate, WorkDay workDay, List<BreakDay>? breaks)
         {
             Username = username;
+            ClockingYear = clockingYear;
             ClockingWeek = clockingWeek;
             ClockingDate = clockingDate;
             WorkDay = workDay;
