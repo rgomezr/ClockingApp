@@ -12,7 +12,9 @@ namespace ClockingApp.Models.ClockingData
         public bool HasClockings => (WeeklyClockings != null && WeeklyClockings.Any());
 		public int ClockingWeek => HasClockings
             ? WeeklyClockings.First().ClockingWeek : 0;
-		public string ClockingWeek_formatted => HasClockings ? String.Format("WEEK NO. {0}", this.ClockingWeek) : "";
+		public int ClockingYear => HasClockings
+            ? WeeklyClockings.First().ClockingYear : 0;
+        public string ClockingWeek_formatted => HasClockings ? String.Format("WEEK NO. {0}", this.ClockingWeek) : "";
 		public string Username => HasClockings ? WeeklyClockings.First().Username : "";
 		public double WorkingHours => HasClockings ? WeeklyClockings.Sum(clocking => clocking.WorkDay.Duration) : 0.0;
 		public int WorkingDaysCount => HasClockings ? WeeklyClockings.Count() : 0;

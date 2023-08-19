@@ -33,7 +33,7 @@ namespace ClockingApp.Controllers
         {
             DateTime currentDate = DateTime.Now;
             WorkDay workDay = new WorkDay(currentDate, null);
-            Clocking clocking = new Clocking(_userSettings.Username, ISOWeek.GetWeekOfYear(currentDate), currentDate.Date, workDay, null);
+            Clocking clocking = new Clocking(_userSettings.Username, currentDate.Year, ISOWeek.GetWeekOfYear(currentDate), currentDate.Date, workDay, null);
             await _clockingService._clockingRepo.InsertOneAsync(clocking);
             return Json(Url.Action("Index", "Home"));
 
@@ -117,8 +117,12 @@ namespace ClockingApp.Controllers
         public async Task<ActionResult> GetAllClockingsForUserAndWeek(DateTime weekDate)
         {
             int weekNumber = ISOWeek.GetWeekOfYear(weekDate);
-            IList<Clocking> weekClockings = (await _clockingService._clockingRepo.FindAllAsync(clocking => clocking.Username.Equals(_userSettings.Username) &&
-                                                clocking.ClockingWeek.Equals(weekNumber))).ToList();
+            int weekYear = weekDate.Year;
+            IList<Clocking> weekClockings = (await _clockingService._clockingRepo
+                                            .FindAllAsync(clocking => clocking.Username.Equals(_userSettings.Username)
+                                                && clocking.ClockingYear.Equals(weekYear)
+                                                && clocking.ClockingWeek.Equals(weekNumber)))
+                                            .ToList();
             foreach (Clocking clocking in weekClockings)
             {
                 clocking.SetClockingSettings(_clockingSettings);
@@ -127,11 +131,14 @@ namespace ClockingApp.Controllers
             return View("ClockingsForUserAndWeek", weeklyClockingInfo);
         }
 
-        public async Task<ActionResult> GetClockingInvoiceForWeek(int weekNumber, string gmtTimeZoneId)
+        public async Task<ActionResult> GetClockingInvoiceForWeek(int weekNumber, int weekYear, string gmtTimeZoneId)
         {
             TimeZoneInfo specifiedTimeZone = TimeZoneInfo.FindSystemTimeZoneById(gmtTimeZoneId);
-            IList<Clocking> weekClockings = (await _clockingService._clockingRepo.FindAllAsync(clocking => clocking.Username.Equals(_userSettings.Username) &&
-                                                clocking.ClockingWeek.Equals(weekNumber))).ToList();
+            IList<Clocking> weekClockings = (await _clockingService._clockingRepo
+                                            .FindAllAsync(clocking => clocking.Username.Equals(_userSettings.Username)
+                                                && clocking.ClockingYear.Equals(weekYear)
+                                                && clocking.ClockingWeek.Equals(weekNumber)))
+                                            .ToList();
             foreach (Clocking clocking in weekClockings)
             {
                 clocking.SetClockingSettings(_clockingSettings);
