@@ -49,11 +49,12 @@ function FinishBreak(clockingId) {
 }
 
 function DeleteTableRowByTableIndex(tableId, tableRowIndex) {
-
     /* tableRowIndex starts in zero within tbody and table.deleteRow()
-     * considers 0 as the table head - Therefore, we increment index always in 1
+     * considers 0 as the table head - Therefore, we increment index always in 1.
+     * parseInt is used to make sure that it does not join two strings with the sum
+     * operation.
      */
-    var dataTableRowIndex = tableRowIndex + 1;
+    var dataTableRowIndex = parseInt(tableRowIndex) + 1;
     var table = document.getElementById(tableId);
     if (table) {
         table.deleteRow(dataTableRowIndex);
@@ -80,11 +81,11 @@ function DeleteClockingRequest(clockingId) {
 
 }
 
-async function DeleteClocking(clockingId, tableId, tableRowIndexToDelete) {
+async function DeleteClocking(clockingId, clockingDate, tableId, tableRowIndexToDelete) {
     let userRequestResponse = await Swal.fire({
         icon: 'question',
         title: 'Removing Clocking',
-        text: `This will remove Clocking ${clockingId}`,
+        text: `This will remove Clocking for ${clockingDate}`,
         showConfirmButton: true,
         showCancelButton: true,
         confirmButtonText: 'Delete it!'
@@ -96,7 +97,7 @@ async function DeleteClocking(clockingId, tableId, tableRowIndexToDelete) {
         if (deleteResponse === true) {
             DeleteTableRowByTableIndex(tableId, tableRowIndexToDelete);
             Swal.fire('Deleted!'
-                , 'Clocking is gone'
+                , 'Clocking was deleted'
                 , 'success');
         } else {
             Swal.fire('Error!'
