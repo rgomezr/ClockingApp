@@ -153,6 +153,7 @@ namespace ClockingApp.Controllers
                 clocking.SetTimeZoneForClockingWorkAndBreaks(specifiedTimeZone);
             }
             WeeklyClockingInfo weeklyClockingInfo = new WeeklyClockingInfo(weekClockings);
+            weeklyClockingInfo.IsInvoiceView = true;
             return View("ClockingsInvoicePDF", weeklyClockingInfo);
         }
 

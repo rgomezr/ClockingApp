@@ -41,7 +41,10 @@
                 <th>Work Duration</th>
                 <th>Breaks</th>
                 <th>Breaks Breakdown</th>
-                <th></th>
+                @if (!Model.IsInvoiceView)
+                {
+                    <th></th>
+                }
             </tr>
         </thead>
         <tbody>
@@ -70,14 +73,16 @@
                             </ul>
                         }
                     </td>
-                    <td>
-                        <div class="optionsMenu">
-                            <div class="containerGroup initial">
-                                <button type="button" class="inlineEditButton btn btn-light" onclick="DeleteClocking('@(item.clocking._id)', 'clockingTable', '@(item.index)')">×</button>
-                                <button type="button" class="inlineEditButton btn btn-light" onclick="window.open('@(Url.Action("EditClocking", "Clocking", new { clocking = item.clocking._id }))', '_blank')">✎</button>
+                    @if (!Model.IsInvoiceView)
+                    {
+                        <td>
+                            <div class="optionsMenu">
+                                <div class="containerGroup initial">
+                                    <button type="button" class="inlineEditButton btn btn-light" title="Delete this Clocking" onclick="DeleteClocking('@(item.clocking._id)', 'clockingTable', '@(item.index)')">×</button>
+                                </div>
                             </div>
-                        </div>
-                    </td>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>
