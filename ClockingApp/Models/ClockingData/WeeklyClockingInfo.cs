@@ -7,7 +7,8 @@ namespace ClockingApp.Models.ClockingData
 	{
         public IList<Clocking>? WeeklyClockings { get; set; }
 		public double OvertimeHours { get; set; }
-		public bool HasOvertime => (OvertimeHours > 0);
+		public bool IsInvoiceView { get; set; } = false;
+        public bool HasOvertime => (OvertimeHours > 0);
         public string OvertimeHours_formatted => String.Format("{0}{1}", this.OvertimeHours.ToString("##.##"), "h");
         public bool HasClockings => (WeeklyClockings != null && WeeklyClockings.Any());
 		public int ClockingWeek => HasClockings

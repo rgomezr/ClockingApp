@@ -11,7 +11,7 @@ namespace ClockingApp.Repository
         Task<IEnumerable<TDocument>> FindAllAsync(Expression<Func<TDocument, bool>> filter);
         Task FindOneAndReplaceAsync(Expression<Func<TDocument, bool>> filter, TDocument document);
         Task InsertOneAsync(TDocument document);
-        Task DeleteByIdAsync(string id);
+        Task<bool> DeleteByIdAsync(string id);
     }
 }
 
