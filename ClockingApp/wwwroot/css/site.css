@@ -106,12 +106,6 @@ body {
 table th {
     text-align: left;
 }
-/*    table th:hover {
-        border: 0.5px solid;
-        border-radius: 15px;
-        border-color: rgba(0,0,0,0.04);
-        background-color: rgba(0,0,0,0.04);
-    }*/
 
 .hasSmallPrint {
 }
@@ -152,4 +146,21 @@ table th {
     font-weight: 200;
     font-size: medium;
     color: rgba(70,130,180, 30);
+}
+
+.inlineEditButton {
+    font-size: large;
+    padding: 2px 5px;
+
+}
+
+.optionsMenu {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.2s linear, opacity 0.2s linear;
+}
+
+.clockingTable tbody tr:hover .optionsMenu {
+    visibility: visible;
+    opacity: 1;
 }

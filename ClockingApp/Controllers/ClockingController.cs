@@ -114,6 +114,14 @@ namespace ClockingApp.Controllers
             }
         }
 
+        [HttpDelete]
+        public async Task<ActionResult> Clocking([FromBody] string clockingId)
+        {
+            bool isDeleted = await _clockingService._clockingRepo.DeleteByIdAsync(clockingId);
+            return Json(isDeleted);
+        }
+
+
         public async Task<ActionResult> GetAllClockingsForUserAndWeek(DateTime weekDate)
         {
             int weekNumber = ISOWeek.GetWeekOfYear(weekDate);
@@ -145,7 +153,13 @@ namespace ClockingApp.Controllers
                 clocking.SetTimeZoneForClockingWorkAndBreaks(specifiedTimeZone);
             }
             WeeklyClockingInfo weeklyClockingInfo = new WeeklyClockingInfo(weekClockings);
+            weeklyClockingInfo.IsInvoiceView = true;
             return View("ClockingsInvoicePDF", weeklyClockingInfo);
+        }
+
+        public async Task<ActionResult> EditClocking(string clockingId)
+        {
+            return View("EditClocking", model:clockingId);
         }
 
         private async Task<Clocking> RetrieveClockingById(string clockingId)

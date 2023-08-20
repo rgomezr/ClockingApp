@@ -32,7 +32,7 @@
         </div>
     </div>
     <p class="groupLabel smallMarginTop">Breakdown</p>
-    <table class="table table-borderless">
+    <table class="table table-borderless clockingTable" id="clockingTable">
         <thead>
             <tr>
                 <th>Date</th>
@@ -41,28 +41,47 @@
                 <th>Work Duration</th>
                 <th>Breaks</th>
                 <th>Breaks Breakdown</th>
+                @if (!Model.IsInvoiceView)
+                {
+                    <th></th>
+                }
             </tr>
         </thead>
         <tbody>
-            @foreach (ClockingApp.Models.ClockingData.Clocking clocking in Model.WeeklyClockings)
+            @foreach (var item in Model.WeeklyClockings.Select((clocking, index) => new { clocking, index }))
             {
                 <tr>
-                    <td>@clocking.ClockingDate.ToString("D")</td>
-                    <td>@clocking.WorkDay.StartDate_formatted</td>
-                    <td>@clocking.WorkDay.EndDate_formatted</td>
-                    <td class="hasSecondSmallPrint">@clocking.WorkingHoursPaid_formatted</td>
-                    <td>@String.Format("{0} Breaks ({1})", clocking.NumberOfBreaks, clocking.BreakDuration_formatted)</td>
                     <td>
-                        @if (clocking.Breaks != null)
+                        @item.clocking.ClockingDate.ToString("D")
+                    </td>
+                    <td>@item.clocking.WorkDay.StartDate_formatted</td>
+                    <td>@item.clocking.WorkDay.EndDate_formatted</td>
+                    <td class="hasSecondSmallPrint">@item.clocking.WorkingHoursPaid_formatted</td>
+                    <td>@String.Format("{0} Breaks ({1})", item.clocking.NumberOfBreaks, item.clocking.BreakDuration_formatted)</td>
+                    <td>
+                        @if (item.clocking.Breaks != null)
                         {
                             <ul>
-                                @foreach (var _break in clocking.Breaks)
+                                @foreach (var _break in item.clocking.Breaks)
                                 {
-                                    <li>@String.Format("{0} → {1} ({2})", _break.StartDate_formatted, _break.EndDate_formatted, _break.Duration_formatted)</li>
+                                    <li>
+                                        @String.Format("{0} → {1} ({2})", _break.StartDate_formatted
+                                   , _break.EndDate_formatted, _break.Duration_formatted)
+                                    </li>
                                 }
                             </ul>
                         }
                     </td>
+                    @if (!Model.IsInvoiceView)
+                    {
+                        <td>
+                            <div class="optionsMenu">
+                                <div class="containerGroup initial">
+                                    <button type="button" class="inlineEditButton btn btn-light" title="Delete this Clocking" onclick="DeleteClocking('@(item.clocking._id)', '@(item.clocking.ClockingDate.ToString("D"))', 'clockingTable', '@(item.index)')">×</button>
+                                </div>
+                            </div>
+                        </td>
+                    }
                 </tr>
             }
         </tbody>
