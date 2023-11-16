@@ -28,9 +28,18 @@ namespace ClockingApp.Repository
             return (await _collection.FindAsync(filter)).FirstOrDefault();
         }
 
-        public virtual async Task InsertOneAsync(TDocument document)
+        public virtual async Task<(bool, string)> InsertOneAsync(TDocument document)
         {
-            await _collection.InsertOneAsync(document);
+            (bool result, string exception) result = (true, "");
+            try
+            {
+                await _collection.InsertOneAsync(document);
+            }
+            catch (AggregateException aggEx)
+            {
+                result = (false, aggEx.Message);
+            }
+            return result;
         }
 
         public virtual async Task FindOneAndReplaceAsync(Expression<Func<TDocument, bool>> filter, TDocument document)
