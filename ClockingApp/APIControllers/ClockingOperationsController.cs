@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
 using System.Threading.Tasks;
+using ClockingApp.Controllers;
+using ClockingApp.CustomServices;
+using ClockingApp.Models.ClockingData;
+using ClockingApp.Settings;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClockingApp.APIControllers
@@ -10,11 +14,27 @@ namespace ClockingApp.APIControllers
     [Route("api/[controller]")]
     public class ClockingOperationsController : Controller
     {
+        private readonly ClockingService _clockingService;
+        private readonly IUserSettings _userSettings;
+        private readonly IClockingSettings _clockingSettings;
+
+        public ClockingOperationsController(ClockingService clockingService, IUserSettings userSettings, IClockingSettings clockingSettings)
+        {
+            _clockingService = clockingService;
+            _userSettings = userSettings;
+            _clockingSettings = clockingSettings;
+        }
+
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
-        public string GetTodaysClocking()
+        public async Task<string> GetTodaysClocking()
         {
-            return "test";
+            DateTime today = DateTime.Now.Date;
+            Clocking todaysClocking = await _clockingService._clockingRepo
+                                        .FindOneAsync(clocking => clocking.Username.Equals(_userSettings.Username) && clocking.ClockingDate == today);
+            todaysClocking?.SetClockingSettings(_clockingSettings);
+            string clockingJson = Newtonsoft.Json.JsonConvert.SerializeObject(todaysClocking);
+            return clockingJson;
         }
 
         //// GET: api/values
