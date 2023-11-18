@@ -8,9 +8,9 @@ namespace ClockingApp.CustomServices
 	{
 		public readonly IClockingRepository _clockingRepo;
 
-		public ClockingService(IMongoClient mongoClient, IMongoDBSettings mongoSettings)
+		public ClockingService(IMongoClient mongoClient, IMongoDBSettings mongoSettings, IUserSettings userSettings)
 		{
-            _clockingRepo = new ClockingRepository(mongoClient, mongoSettings);
+            _clockingRepo = new ClockingRepository(mongoClient, mongoSettings, userSettings);
 
 		}
 	}

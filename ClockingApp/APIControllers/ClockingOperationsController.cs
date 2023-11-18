@@ -42,10 +42,14 @@ namespace ClockingApp.APIControllers
         [Produces(MediaTypeNames.Application.Json)]
         public async Task<string> StartWork()
         {
-            DateTime currentDate = DateTime.Now;
-            WorkDay workDay = new(currentDate, null);
-            Clocking clocking = new(_userSettings.Username, currentDate.Year, ISOWeek.GetWeekOfYear(currentDate), currentDate.Date, workDay, null);
-            (bool result, string exception) result = await _clockingService._clockingRepo.InsertOneAsync(clocking);
+            (bool result, string exception) result = (false, "There's already a Clocking for today");
+            if (!await _clockingService._clockingRepo.IsClockingForToday())
+            {
+                DateTime currentDate = DateTime.Now;
+                WorkDay workDay = new(currentDate, null);
+                Clocking clocking = new(_userSettings.Username, currentDate.Year, ISOWeek.GetWeekOfYear(currentDate), currentDate.Date, workDay, null);
+                result = await _clockingService._clockingRepo.InsertOneAsync(clocking);
+            }
             string resultJson = Newtonsoft.Json.JsonConvert.SerializeObject(result);
             return resultJson;
         }
