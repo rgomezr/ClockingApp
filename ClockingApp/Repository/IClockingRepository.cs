@@ -4,7 +4,7 @@ namespace ClockingApp.Repository
 {
 	public interface IClockingRepository : IMongoRepositoryBase<Clocking>
 	{
-		Task<bool> IsClockingForToday();
+		Task<Clocking> IsClockingForToday();
 	}
 }
 

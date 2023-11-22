@@ -14,13 +14,11 @@ namespace ClockingApp.Repository
 			_userSettings = userSettings;
 		}
 
-        public async Task<bool> IsClockingForToday()
+        public async Task<Clocking> IsClockingForToday()
         {
-			DateTime todaysDate = DateTime.Now.Date.AddDays(-1);
-			Clocking clocking = await this.FindOneAsync(clocking => clocking.Username.Equals(_userSettings.Username)
+			DateTime todaysDate = DateTime.Now.Date;
+			return await this.FindOneAsync(clocking => clocking.Username.Equals(_userSettings.Username)
 														&& clocking.ClockingDate == todaysDate);
-			return clocking != null;
-
         }
     }
 }

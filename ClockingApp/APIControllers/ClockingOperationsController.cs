@@ -44,7 +44,7 @@ namespace ClockingApp.APIControllers
         public async Task<string> StartWork()
         {
             (bool isSuccess, string exception) resultTuple = (false, "There's already a Clocking for today");
-            if (!await _clockingService._clockingRepo.IsClockingForToday())
+            if ((await _clockingService._clockingRepo.IsClockingForToday()) == null)
             {
                 DateTime currentDate = DateTime.Now;
                 WorkDay workDay = new(currentDate, null);
@@ -55,6 +55,25 @@ namespace ClockingApp.APIControllers
             string resultJson = Newtonsoft.Json.JsonConvert.SerializeObject(apiResponse);
             return resultJson;
         }
+
+        [HttpGet]
+        [Produces(MediaTypeNames.Application.Json)]
+        public async Task<string> StartBreak()
+        {
+            (bool isSuccess, string exception) resultTuple = (false, "There's no Clocking for today to start a break into");
+            Clocking clocking = await _clockingService._clockingRepo.IsClockingForToday();
+            if (clocking != null)
+            {
+                DateTime currentDate = DateTime.Now;
+                BreakDay breakDay = new BreakDay(currentDate, null);
+                clocking.AddToBreakList(breakDay);
+                await _clockingService._clockingRepo.FindOneAndReplaceAsync(clocking => clocking.ClockingDate == currentDate.Date, clocking);
+            }
+            ApiResponse apiResponse = new(resultTuple.isSuccess, resultTuple.exception);
+            string resultJson = Newtonsoft.Json.JsonConvert.SerializeObject(apiResponse);
+            return resultJson;
+        }
+
 
         //// POST api/values
         //[HttpPost]
