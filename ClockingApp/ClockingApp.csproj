@@ -28,6 +28,7 @@
     <None Remove="ViewComponents\" />
     <None Remove="Models\CustomSettings\" />
     <None Remove="APIControllers\" />
+    <None Remove="Models\API\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Repository\" />
@@ -41,5 +42,6 @@
     <Folder Include="ViewComponents\" />
     <Folder Include="Models\CustomSettings\" />
     <Folder Include="APIControllers\" />
+    <Folder Include="Models\API\" />
   </ItemGroup>
 </Project>

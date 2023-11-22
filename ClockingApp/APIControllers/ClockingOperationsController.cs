@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using ClockingApp.Controllers;
 using ClockingApp.CustomServices;
 using ClockingApp.Models.ClockingData;
+using ClockingApp.Models.API;
 using ClockingApp.Settings;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,15 +43,16 @@ namespace ClockingApp.APIControllers
         [Produces(MediaTypeNames.Application.Json)]
         public async Task<string> StartWork()
         {
-            (bool result, string exception) result = (false, "There's already a Clocking for today");
+            (bool isSuccess, string exception) resultTuple = (false, "There's already a Clocking for today");
             if (!await _clockingService._clockingRepo.IsClockingForToday())
             {
                 DateTime currentDate = DateTime.Now;
                 WorkDay workDay = new(currentDate, null);
                 Clocking clocking = new(_userSettings.Username, currentDate.Year, ISOWeek.GetWeekOfYear(currentDate), currentDate.Date, workDay, null);
-                result = await _clockingService._clockingRepo.InsertOneAsync(clocking);
+                resultTuple = await _clockingService._clockingRepo.InsertOneAsync(clocking);
             }
-            string resultJson = Newtonsoft.Json.JsonConvert.SerializeObject(result);
+            ApiResponse apiResponse = new(resultTuple.isSuccess, resultTuple.exception);
+            string resultJson = Newtonsoft.Json.JsonConvert.SerializeObject(apiResponse);
             return resultJson;
         }
 
