@@ -4,6 +4,7 @@ using ClockingApp.CustomAttributes;
 using ClockingApp.Settings;
 using MongoDB.Driver;
 using MongoDB.Bson;
+using System.Text.RegularExpressions;
 
 namespace ClockingApp.Repository
 {
@@ -42,9 +43,23 @@ namespace ClockingApp.Repository
             return result;
         }
 
-        public virtual async Task FindOneAndReplaceAsync(Expression<Func<TDocument, bool>> filter, TDocument document)
+        public virtual async Task<(bool, string)> FindOneAndReplaceAsync(Expression<Func<TDocument, bool>> filter, TDocument document)
         {
-            await _collection.FindOneAndReplaceAsync(filter, document);
+            (bool result, string exception) result = (true, "");
+            try
+            {
+                // Options could be specified into FindOneAndReplaceAsync() to specify the desired returned doc (origin, replaced)
+                TDocument returnedDocument = await _collection.FindOneAndReplaceAsync(filter, document);
+                if (returnedDocument == null)
+                {
+                    result = (false, "Error occured while replacing document");
+                }
+            }
+            catch (Exception ex)
+            {
+                result = (false, ex.Message);
+            }
+            return result;
         }
 
         public virtual async Task<IEnumerable<TDocument>> FindAllAsync(Expression<Func<TDocument, bool>> filter)
