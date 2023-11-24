@@ -4,7 +4,6 @@ using ClockingApp.CustomAttributes;
 using ClockingApp.Settings;
 using MongoDB.Driver;
 using MongoDB.Bson;
-using System.Text.RegularExpressions;
 
 namespace ClockingApp.Repository
 {

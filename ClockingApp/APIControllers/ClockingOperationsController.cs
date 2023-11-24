@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
+﻿using System.Globalization;
 using System.Net.Mime;
-using System.Threading.Tasks;
-using ClockingApp.Controllers;
 using ClockingApp.CustomServices;
 using ClockingApp.Models.ClockingData;
 using ClockingApp.Models.API;
