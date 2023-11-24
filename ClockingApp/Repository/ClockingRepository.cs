@@ -16,7 +16,7 @@ namespace ClockingApp.Repository
 
         public async Task<Clocking> GetClockingForToday()
         {
-			DateTime todaysDate = DateTime.Now.Date.AddDays(-1);
+			DateTime todaysDate = DateTime.Now.Date;
 			return await this.FindOneAsync(clocking => clocking.Username.Equals(_userSettings.Username)
 														&& clocking.ClockingDate == todaysDate);
         }
