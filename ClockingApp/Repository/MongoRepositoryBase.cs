@@ -28,14 +28,37 @@ namespace ClockingApp.Repository
             return (await _collection.FindAsync(filter)).FirstOrDefault();
         }
 
-        public virtual async Task InsertOneAsync(TDocument document)
+        public virtual async Task<(bool, string)> InsertOneAsync(TDocument document)
         {
-            await _collection.InsertOneAsync(document);
+            (bool result, string exception) result = (true, "");
+            try
+            {
+                await _collection.InsertOneAsync(document);
+            }
+            catch (AggregateException aggEx)
+            {
+                result = (false, aggEx.Message);
+            }
+            return result;
         }
 
-        public virtual async Task FindOneAndReplaceAsync(Expression<Func<TDocument, bool>> filter, TDocument document)
+        public virtual async Task<(bool, string)> FindOneAndReplaceAsync(Expression<Func<TDocument, bool>> filter, TDocument document)
         {
-            await _collection.FindOneAndReplaceAsync(filter, document);
+            (bool result, string exception) result = (true, "");
+            try
+            {
+                // Options could be specified into FindOneAndReplaceAsync() to specify the desired returned doc (origin, replaced)
+                TDocument returnedDocument = await _collection.FindOneAndReplaceAsync(filter, document);
+                if (returnedDocument == null)
+                {
+                    result = (false, "Error occured while replacing document");
+                }
+            }
+            catch (Exception ex)
+            {
+                result = (false, ex.Message);
+            }
+            return result;
         }
 
         public virtual async Task<IEnumerable<TDocument>> FindAllAsync(Expression<Func<TDocument, bool>> filter)
