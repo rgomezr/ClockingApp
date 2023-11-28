@@ -53,16 +53,46 @@ namespace ClockingApp.APIControllers
 
         [HttpGet]
         [Produces(MediaTypeNames.Application.Json)]
+        public async Task<string> FinishWork()
+        {
+            (bool isSuccess, string exception) resultTuple = (false, "There's no Clocking for today");
+            Clocking clocking = await _clockingService._clockingRepo.GetClockingForToday();
+            if (clocking != null)
+            {
+                if (!clocking.IsCurrentBreakActive())
+                {
+                    DateTime currentDate = DateTime.Now;
+                    clocking.WorkDay.EndDate = currentDate;
+                    resultTuple = await _clockingService._clockingRepo.FindOneAndReplaceAsync(clocking => clocking.ClockingDate == currentDate.Date, clocking);
+                }
+                else
+                {
+                    resultTuple = (false, "There's an active break that needs to be finished before finishing work");
+                }
+            }
+            ApiResponse apiResponse = new(resultTuple.isSuccess, resultTuple.exception);
+            string resultJson = Newtonsoft.Json.JsonConvert.SerializeObject(apiResponse);
+            return resultJson;
+        }
+
+        [HttpGet]
+        [Produces(MediaTypeNames.Application.Json)]
         public async Task<string> StartBreak()
         {
             (bool isSuccess, string exception) resultTuple = (false, "There's no Clocking for today to start a break into");
             Clocking clocking = await _clockingService._clockingRepo.GetClockingForToday();
             if (clocking != null)
             {
-                DateTime currentDate = DateTime.Now;
-                BreakDay breakDay = new BreakDay(currentDate, null);
-                clocking.AddToBreakList(breakDay);
-                resultTuple = await _clockingService._clockingRepo.FindOneAndReplaceAsync(clocking => clocking.ClockingDate == currentDate.Date, clocking);
+                if (!clocking.IsCurrentBreakActive())
+                {
+                    DateTime currentDate = DateTime.Now;
+                    BreakDay breakDay = new BreakDay(currentDate, null);
+                    clocking.AddToBreakList(breakDay);
+                    resultTuple = await _clockingService._clockingRepo.FindOneAndReplaceAsync(clocking => clocking.ClockingDate == currentDate.Date, clocking);
+                } else
+                {
+                    resultTuple = (false, "There's already an active break within Clocking");
+                }
             }
             ApiResponse apiResponse = new(resultTuple.isSuccess, resultTuple.exception);
             string resultJson = Newtonsoft.Json.JsonConvert.SerializeObject(apiResponse);
@@ -83,7 +113,8 @@ namespace ClockingApp.APIControllers
                     DateTime currentDate = DateTime.Now.Date;
                     clocking.FinishActiveBreak();
                     resultTuple = await _clockingService._clockingRepo.FindOneAndReplaceAsync(clocking => clocking.ClockingDate == currentDate.Date, clocking);
-                } else
+                }
+                else
                 {
                     resultTuple = (false, "There's not an active break in today's Clocking");
                 }
